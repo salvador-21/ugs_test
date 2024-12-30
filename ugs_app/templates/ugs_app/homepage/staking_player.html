@@ -1,0 +1,72 @@
+{% extends '../base.html' %}
+
+{% block body %}
+
+<div class="data-table-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div
+                            class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0 text-warning">Agent Player Accounts</h4>
+                            <label id="commis">Commission Rate: {{user.userwallet.commission_rate}}</label>
+                                <!-- <p>{{user.userwallet.w_balance}}</p> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive" id="import_raw_table">
+                        <table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+                            <thead>
+                                <tr>
+                                    <th>Date Joined</th>
+                                    <th>Username</th>
+                                    <th>Category</th>
+                                    <th>Wallet Points</th>
+                                    <th>Commission Rate</th>
+                                    <th>Refer By</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for u in users %}
+                                <tr>
+                                    <td>{{u.date_joined}}</td>
+                                    <td class="text-white fs-4" style="text-transform: capitalize;">{{ u.username}}</td>
+                                    <td>{{ u.useraccount.usertype}}</td>
+                                    <td>{{ u.userwallet.w_balance}}</td>
+                                    <td>{{ u.userwallet.commission_rate}}</td>
+                                    <td style="text-transform: capitalize;" class="fw-bolder">{{ u.useraccount.user_agent}}</td>
+                                    <td>
+                                        {% if u.useraccount.status == 'ACTIVE' %}
+                                        <button type="button" class="btn btn-success btn-sm mb-2 me-2" acc="{{ u.username}}" aid="{{u.id}}"  st="{{u.useraccount.status}}">ACTIVE</button>
+                                        {% elif u.useraccount.status == 'INACTIVE' %}
+                                        <button type="button" class="btn btn-warning btn-sm mb-2 me-2" acc="{{ u.username}}" aid="{{u.id}}" st="{{u.useraccount.status}}">INACTIVE</button>
+                                        {% else %}
+                                        <button type="button" class="btn btn-danger btn-sm mb-2 me-2" acc="{{ u.username}}" aid="{{u.id}}" st="{{u.useraccount.status}}">BANNED</button>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-secondary btn-sm mb-2 me-2 btn-actvateplyr" acct="{{ u.username}}" accid="{{ u.id}}" comrate="{{ u.userwallet.commission_rate}}" plstat="{{ u.useraccount.usertype}}"> ACTIVATE</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

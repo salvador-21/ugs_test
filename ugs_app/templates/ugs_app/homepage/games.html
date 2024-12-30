@@ -1,0 +1,53 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block body %}
+<div class="container-fluid">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="card ">
+                <div class="card-body card-breadcrumb">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0">Online Games</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% for g in games %}
+        <div class="col-sm-6 col-lg-3">
+            <div class="card">
+                <div class="card-body p-lg-4">
+                    <!-- Single Card -->
+                    <div class="single-product-card">
+                        <div class="single-product-img pb-0">
+                            <img class="w-100" src="/{{g.g_image}}" alt="">
+                            <a class="pro-choice" href="#">
+                                <i class="bx bx-mouse-alt"></i>
+                            </a>
+                        </div>
+                        <div class="single-product-meta pt-0" style="margin-top: -20px;">
+                            <h4 class="product-title" href="#">{{g.g_name}}</h4>
+                            <ul class="product-rating-list">
+                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                            </ul>
+                            <div class="d-flex justify-content-between align-items-center mt-4 w-100">
+                                <div class="button-area w-100">
+                                    <a class="btn btn-warning w-100 playnow" id="{{g.g_id}}" href="{% url 'arena' g.g_id %}"> Play Now!</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock%}

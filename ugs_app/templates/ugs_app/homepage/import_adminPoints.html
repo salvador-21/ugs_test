@@ -1,0 +1,44 @@
+{% load humanize %}
+<table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Code</th>
+            <th>Amount</th>
+            <th>Sender</th>
+            <th>Receiver</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for points in adminPointsList %}
+        <tr>
+            <td>{{ points.p_id }}. </td>
+            <td>{{ points.p_code }}</td>
+            <td>{{ points.p_amount|floatformat:"2"|intcomma}}</td>
+            <td>{{ points.p_sender.username }} - {{ points.p_receiver.first_name }}</td>
+            <td>{{ points.p_receiver.username }} - {{ points.p_receiver.first_name }}</td>
+            <td>{{ points.p_created }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script>
+    $("#selection-datatable").DataTable({
+            select: { style: "multi" },
+            language: { paginate: { previous: "<i class='bx bx-chevron-left'></i>", next: "<i class='bx bx-chevron-right'></i>" } },
+            drawCallback: function () {
+                $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+            },
+        })
+</script>
+<script>
+    $(document).ready(function() {
+        if ($.fn.DataTable.isDataTable('#selection-datatable')) {
+            $('#selection-datatable').DataTable().destroy();
+        }
+        $('#selection-datatable').DataTable({
+            "ordering": false
+        });
+    });
+</script>

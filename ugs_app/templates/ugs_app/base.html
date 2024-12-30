@@ -1,0 +1,314 @@
+<!doctype html>
+{% load compress static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none';" /> -->
+    <title>UGS- {{page}}</title>
+    <link rel="icon" href="{% static 'ugs_app/img/logo2.png' %}">
+
+ 
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'ugs_app/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'ugs_app/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'ugs_app/css/dataTables.bootstrap5.min.css' %}">
+    <link rel="stylesheet" href="{% static 'ugs_app/css/buttons.bootstrap5.min.css' %}">
+    <link rel="stylesheet" href="{% static 'ugs_app/css/select.dataTables.min.css' %}">
+    <link rel="stylesheet" href="{% static 'ugs_app/css/sweetalert2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'ugs_app/style.css' %}">
+    <link rel="stylesheet" href="{% static 'ugs_app/build/toastr.css' %}">
+   {% endcompress %}
+   {% compress css inline %}
+    <style>
+        body{
+        background-image: url('{% static "ugs_app/img/dash_bg2.jpg"%}');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    .btn-pill{
+        border-radius: 20px;
+        white-space: nowrap;
+    }
+    .inputclass {
+        background-color: rgb(219, 215, 215) !important;
+        padding: 12px 12px;
+        box-sizing: border-box;
+        border: 1px solid rgb(0, 102, 102,0.3);
+        font-weight: 500;
+        font-size: 18px;
+        border-radius: 8px;
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
+        outline: none;
+        color: #0e0d0d !important;
+    }
+    .inputclass:focus {
+        border: 1px solid #ff9900;
+    }
+    .modal-blur {
+        backdrop-filter: blur(5px);
+    }
+
+    .selectize-control .selectize-input {
+    background-color: rgb(219, 215, 215) !important;
+    padding: 15px !important;
+    border: 1px solid rgba(0, 102, 102, 0.3) !important;
+    border-radius: 8px !important;
+    color: #0e0d0d !important;
+    box-shadow: none !important;
+    transition: 0.5s;
+    font-size: 18px;
+}
+
+/* Remove outer border and shadow of Selectize */
+.selectize-control {
+    border: none !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    border-radius: 8px !important;
+}
+
+/* Focus state for the input area */
+.selectize-control .selectize-input:focus {
+    border: 1px solid #ff9900 !important;
+    border-radius: 8px !important;
+}
+
+/* Customize dropdown styles */
+.selectize-control .selectize-dropdown {
+    border: 1px solid rgba(0, 102, 102, 0.3) !important;
+    box-shadow: none !important;
+    background-color: rgb(219, 215, 215) !important;
+    border-radius: 8px !important;
+}
+
+/* Add margin and padding to dropdown options */
+.selectize-control .selectize-dropdown-content .option {
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+/* Hover effect for options */
+.selectize-control .selectize-dropdown-content .option:hover {
+    background-color: rgba(0, 102, 102, 0.2); 
+}
+
+.fnt2{
+    font-size: 8px !important;
+}
+.no-wrap {
+    white-space: nowrap; /* Prevents text from wrapping onto multiple lines */
+    overflow: hidden;    /* Hides any overflow text that doesn't fit */
+    text-overflow: ellipsis; /* Adds "..." to indicate overflowed text */
+}
+.tablespinner {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  font-size: 50px;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  color: rgb(241, 198, 6);
+}
+
+.tablespinner1 {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  font-size: 30px;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  color: rgb(45, 48, 45);
+}
+    </style>
+
+{% endcompress %}
+</head>
+<body>
+    
+    <div  id="preloader">
+        <div class="chicken-loader" >
+            <span class="eye"></span>
+        </div>
+    </div>
+    <div class="flapt-page-wrapper">
+        <div class="flapt-sidemenu-wrapper">
+            <div class="flapt-logo">
+                <a href="{% url 'homepage' %}">
+                    <img class="desktop-logo bounce" src="{% static 'ugs_app/img/logo.png' %}" alt="Desktop Logo"> 
+                    <img class="small-logo" src="{% static 'ugs_app/img/logo2.png' %}" alt="Mobile Logo"></a>
+                </div>
+                <div class="flapt-sidenav" id="flaptSideNav">
+                    <div class="side-menu-area">
+                        {% include './include/sidebar.html' %}
+                    </div>
+                    {% if user.useraccount.usertype != 'ADMIN' and user.useraccount.usertype != 'DECLARATOR' and user.useraccount.usertype != 'SUPER ADMIN' %}
+                    <div class="upgrade-card card">
+                       
+                            <a href="{% url 'home_stake' %}">
+                            <img class="mb-0" src="{% static 'ugs_app/img/staking/STAKING.jpg' %}" alt="">
+                        </a>
+                            <!-- <a class="btn btn-sm btn-warning fs-4 " href="{% url 'home_stake' %}">STAKING</a> -->
+                      
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="flapt-page-content">
+                {% include './include/header.html' %}
+                <div class="main-content" style="padding: 20px 0px">
+                    <div class="content-wraper-area">
+                        {% block body %}
+                        {% endblock%}
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <footer
+                                class="footer-area d-sm-flex justify-content-center align-items-center justify-content-between">
+                                <div class="fotter-icon text-center">
+                                    <p class="mb-0 font-13"> 2024 &copy; <a href="">Ultimate Gaffed Sports</a> v4.9.123024</p>
+                                </div>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'ugs_app/include/modals.html' %}
+    {% if user.useraccount.usertype == 'ADMIN' %}
+    {% include 'ugs_app/include/admin_modals.html' %}
+    {% endif%}
+
+    {% if user.useraccount.usertype == 'SUPER ADMIN' %}
+    {% include 'ugs_app/include/superadmin_modals.html' %}
+    {% endif%}
+    
+    {% if page == 'STAKING' %}
+    {% include 'staking/modal/modal.html' %}
+    {% endif %}
+
+    
+    <!-- ======================================
+    ********* Page Wrapper Area End ***********
+    ======================================= -->
+    <script>let invalidChars = [".","-","+","e","E"];</script>
+    <script>let invalidCharcoms = ["-","+","e","E"];</script>
+    <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script> -->
+    <!-- Must needed plugins to the run this Template -->
+    
+  
+    {% compress js %}
+    <script src="{% static 'ugs_app/js/jquery.min.js' %}"></script>
+    <script src="{% static 'ugs_app/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'ugs_app/js/default-assets/setting.js' %}"></script>
+    <script src="{% static 'ugs_app/js/default-assets/scrool-bar.js' %}"></script>
+    <script src="{% static 'ugs_app/js/todo-list.js' %}"></script>
+    <script src="{% static 'ugs_app/js/moment.js' %}"></script>
+    <!-- <script src="{% static 'ugs_app/js/jquery.nice-select.min.js' %}"></script> -->
+    <!-- These plugins only need for the run this page -->
+    <script src="{% static 'ugs_app/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'ugs_app/js/dataTables.bootstrap5.min.js' %}"></script>
+    <!-- <script src="{% static 'ugs_app/js/dataTables.responsive.min.js' %}"></script>   REMOVED RESPONSIVE 101824 -->
+    <script src="{% static 'ugs_app/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'ugs_app/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'ugs_app/js/pdfmake.min.js' %}"></script>
+    <script src="{% static 'ugs_app/js/vfs_fonts.js' %}"></script>
+    <script src="{% static 'ugs_app/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'ugs_app/js/jszip.min.js' %}"></script>
+    <script src="{% static 'ugs_app/js/dataTables-custom.js' %}"></script>
+    
+    <script src="{% static 'ugs_app/js/sweetalert2.all.min.js' %}"></script>
+    <!-- <script src="{% static 'ugs_app/js/sweetalert-custom.js' %}"></script> -->
+    <!-- Active JS -->
+    <script src="{% static 'ugs_app/js/todo-list.js' %}"></script>
+    <script src="{% static 'ugs_app/js/default-assets/active.js' %}"></script>
+    <script src="{% static 'ugs_app/build/toastr.js' %}"></script>
+    <!-- These plugins only need for the run this page -->
+    {% if page == 'HOMEPAGE'%}
+    <!-- <script src="{% static 'ugs_app/js/apexcharts.min.js' %}"></script> -->
+    <!-- <script src="{% static 'ugs_app/js/dashboard-custom-sass.js' %}"></script> -->
+    <script src="{% static 'ugs_app/js/clipboard.min.js' %}"></script>
+    <script src="{% static 'ugs_app/js/clipboard-active.js' %}"></script>
+    {% endif %}
+    {% if page == 'ARENA'%}
+    <script src="{% static 'ugs_app/main/arena.js' %}"></script>
+    {% endif %}
+    {% if page == 'SETTING'%}
+    <script src="{% static 'ugs_app/main/setting.js' %}"></script>
+    {% endif %}
+    {% if user.useraccount.usertype == 'ADMIN'%}
+    <script src="{% static 'ugs_app/main/admin.js' %}"></script>
+    {% endif %}
+    {% if user.useraccount.usertype == 'SUPER ADMIN'  %}
+    <script src="{% static 'ugs_app/main/super_admin.js' %}"></script>
+    {% endif %}
+    {% if user.useraccount.usertype == 'ADMIN' or user.useraccount.usertype == 'SUPER ADMIN' or user.useraccount.usertype == 'MASTER OPERATOR' or user.useraccount.usertype == 'INCORPORATOR' or user.useraccount.usertype == 'SUB ADMIN' or user.useraccount.usertype == 'SUB OPERATOR' or user.useraccount.usertype == 'MASTER AGENT' %}
+    <script src="{% static 'ugs_app/main/agentadmin.js' %}"></script>
+    {% endif %}
+    {% if user.useraccount.usertype == 'DECLARATOR' %}
+    <script src="{% static 'ugs_app/main/decla.js' %}"></script>
+    {% endif %}
+    
+    <script src="{% static 'ugs_app/main/default.js' %}"></script>
+    
+    {% if user.useraccount.usertype == 'MASTER OPERATOR' or user.useraccount.usertype == 'INCORPORATOR' or user.useraccount.usertype == 'SUB ADMIN' or user.useraccount.usertype == 'SUB OPERATOR' or user.useraccount.usertype == 'MASTER AGENT' %}
+    <script src="{% static 'ugs_app/main/agent.js' %}"></script>
+    {% endif %}
+    {% if user.useraccount.usertype == 'PLAYER' %}
+    <script src="{% static 'ugs_app/main/player.js' %}"></script>
+    {% endif %}
+    {% if page == 'STAKING'%}
+    <script src="{% static 'ugs_app/staking/index.js' %}"></script>
+    {% endif %}
+    
+    {% endcompress %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+    
+    <script type="text/javascript">
+        $('.selectized').selectize({
+            sortField: 'text'
+        });
+    </script>
+    
+    <script>
+        $(document).on('click','.staking_url',function(){
+            window.location.href='staking/'
+        })
+    </script>
+    
+    <!-- REMOVE TABLE SORT 101824 -->
+    <script>
+        $(document).ready(function() {
+            if ($.fn.DataTable.isDataTable('#selection-datatable')) {
+                $('#selection-datatable').DataTable().destroy();
+            }
+            $('#selection-datatable').DataTable({
+                "ordering": false
+            });
+        });
+    </script>
+    {% if page == 'CONVERT REWARDS' %}
+    <script>
+        var convertpoint = document.getElementById('convertpoint');
+        convertpoint.addEventListener("keydown", function(e) {
+            if (invalidChars.includes(e.key)) {
+                e.preventDefault();
+            }
+        });
+    </script>
+    {% endif %}
+</body>
+</html>

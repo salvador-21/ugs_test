@@ -1,0 +1,210 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block body%}
+<!-- /////////////////// -->
+<div class="dashboard-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            {% if user.useraccount.usertype == 'PLAYER' %}
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="carouselExampleAutoplaying" class="carousel slide pointer-event" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="{% static 'ugs_app/banner/s2.jpg' %}" class="d-block w-100" alt="...">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{% static 'ugs_app/banner/s1.jpg' %}" class="d-block w-100" alt="...">
+                                </div>
+                               
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            
+         
+            {% if user.useraccount.usertype != 'PLAYER' %}
+            <!-- ////////////////// -->
+            <div class="col-sm-6 col-lg-6 col-xxl-3 ">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon " >
+                                    <i class="bx bx-mouse-alt text-success" ></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5>35 new orders</h5>
+                                    <p class="mb-0">Wallet Points</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                                <p>+ 3.56%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-6 col-xxl-3">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon">
+                                    <i class="bx bx-mouse-alt"></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5>35 new orders</h5>
+                                    <p class="mb-0">Awating Processing</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                                <p>+ 3.56%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-6 col-xxl-3">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon">
+                                    <i class="bx bx-mouse-alt"></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5>35 new orders</h5>
+                                    <p class="mb-0">Awating Processing</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                                <p>+ 3.56%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-6 col-xxl-3">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon">
+                                    <i class="bx bx-mouse-alt"></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5>35 new orders</h5>
+                                    <p class="mb-0">Awating Processing</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                                <p>+ 3.56%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+            <!-- ///////////////// -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="clipboardInput" value="{{ref_url}}{{ user.useraccount.referral_code}}" aria-label="Recipient's username" aria-describedby="button-addon2">
+                            <button class="btn btn-warning btn-clipboard" type="button" id="button-addon2" data-clipboard-action="copy" data-clipboard-target="#clipboardInput"><i class="fa fa-copy me-2"></i>Copy</button>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- ///////////////////////// -->
+             <div class="col-12">
+                                <div class="chat-box-left">
+                                    <ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#esabong" type="button" role="tab" aria-controls="pills-home" aria-selected="true">E-SABONG</button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#esports" type="button" role="tab" aria-controls="pills-profile" aria-selected="false" tabindex="-1">E-SPORTS</button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#eperya" type="button" role="tab" aria-controls="pills-contact" aria-selected="false" tabindex="-1">E-PERYA</button>
+                                        </li>
+                                    </ul>
+
+                                    <!--end chat-search-->
+
+                                    <div class="chat-body-left">
+                                        <div class="tab-content" id="pills-tabContent">
+                                            <div class="tab-pane fade active show" id="esabong" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+                                                <div class="" ><div class="single-chat-list" id="HotChat-list" style="overflow: hidden; width: auto; height: 500px;">
+                                                    <!-- Single Chat -->
+                                                    <div class="row">
+                                                        {% for g in games %}
+
+                                                        <div class="col-lg-3 col-sm-6">
+                                                           
+                                                            <div class="card">
+                                                                <a  id="{{g.g_id}}" href="{% url 'arena' g.g_id %}">
+                                                                <div class="card-body">
+                                                                    <img class="rounded-3 mb-4 w-100" src="/{{g.g_image}}" alt="">
+                                                                    <h2 class="card-title mb-2">{{g.g_name}}</h2>
+                                                                    <p class="card-text">{{g.g_desc}}
+                                                                    </p>
+                                                                </div>
+                                                            </a>
+                                                            </div>
+                                                       
+                                                        </div>
+
+                                                        {% endfor %}
+                                                        
+                                                    </div>
+                                                    
+                                                   
+                                                    <!-- end esabong -->
+                                                </div><div class="slimScrollBar" style="background: rgb(235, 235, 235); width: 4px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 0px; height: 500px;"></div><div class="slimScrollRail" style="width: 4px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 0px;"></div></div>
+                                            </div>
+                                            <div class="tab-pane fade" id="esports" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+                                                <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 500px;"><div class="single-chat-list" id="HotChat-list2" style="overflow: hidden; width: auto; height: 500px;">
+                                                    <!-- Single Chat -->
+                                                     sports
+                                                   <!-- end esports -->
+                                                </div><div class="slimScrollBar" style="background: rgb(235, 235, 235); width: 4px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 0px;"></div><div class="slimScrollRail" style="width: 4px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 0px;"></div></div>
+                                            </div>
+                                            <div class="tab-pane fade" id="eperya" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
+                                                <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 500px;"><div class="single-chat-list" id="HotChat-list3" style="overflow: hidden; width: auto; height: 500px;">
+                                                    <!-- Single Chat -->
+                                                     eperya
+                                                    <!-- end eperya -->
+                                                </div><div class="slimScrollBar" style="background: rgb(235, 235, 235); width: 4px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 0px;"></div><div class="slimScrollRail" style="width: 4px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 0px;"></div></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+            <!-- ///////////////////////// -->
+        </div>
+    </div>
+</div>
+
+<!-- //////////////// -->
+{% endblock %}

@@ -1,0 +1,150 @@
+{% extends 'ugs_app/base.html' %}
+{% load static %}
+{% block body%}
+{% load humanize %}
+<div class="data-table-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div
+                        class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0 text-warning">Staking Commissions</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12 col-md-4">
+            <div class="card">
+                <div class="card-body card-breadcrumb">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0"> STAKE REWARDS </h4>
+                        <div class="page-title-right">
+                            <h4 class="text-warning" style="font-weight: 700;">{% load humanize %} {{ user.userwallet.w_stakecom|floatformat:"2"|intcomma }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12 col-md-4">
+            <div class="card">
+                <div class="card-body card-breadcrumb">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0"> REWARDS CLAIMED </h4>
+                        <div class="page-title-right">
+                            <h4 class="text-warning" style="font-weight: 700;" id="newclaimbal">{% load humanize %} {{ user.userwallet.w_stakecom_claim|floatformat:"2"|intcomma }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card">
+                <div class="card-body card-breadcrumb">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0"> BALANCE </h4>
+                        <div class="page-title-right">
+                            <h4 class="text-warning" style="font-weight: 700;" id="stakerewardbal">{% load humanize %} {{ newcomsbal|floatformat:"2"|intcomma }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="col-sm-12 col-lg-5 col-xxl-5">
+            <div class="card ">
+                <div class="card-body" data-intro="New Orders">
+                    <form id="stakeclaimreward" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="col-sm-12 col-lg-12 col-xxl-12 ">
+                                <div class="mb-3">
+                                    <label class="col-form-label">Mode of Payment:</label>
+                                    <select class="form-control inputclass" id="mop" required>
+                                        <option value=""> - - - </option>
+                                        <option value="Gcash"> - Gcash</option>
+                                        <option value="Bank"> - Bank</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label  class="col-form-label">Account Name:</label>
+                                    <input type="text" class="form-control inputclass" id="acct_name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label  class="col-form-label">Account Number:</label>
+                                    <input type="number" class="form-control inputclass" id="acct_number" required>
+                                </div>
+                                <div class="mb-3">
+                                    <span>Withdarw Amount:</span>
+                                    <input type="number" min="100" class="form-control inputclass" id="rewardsamount" value="0" onfocus="inputstkrewars(this)"/>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" id="currentrewards" value='{{ newcomsbal }}'/>
+                            {% if user.useraccount.coutstat == 0 %} 
+                            <button class="btn btn-outline-warning btn-pill btn-block" id="stkeclaimbtn"><i class="fa fa-spin fa-spinner f-16 stkeclaimspin" style="display:none;"></i> Withdraw Reward </button>
+                            {% elif user.useraccount.coutstat == 1 %}
+                            <button type="button" disabled class="btn btn-outline-danger btn-pill btn-block" id="stkeclaimbtn"><i class="fa fa-spin fa-spinner f-16 stkeclaimspin" style="display:none;"></i>Closed Withdrawal  </button>
+                            {% endif %}
+                            
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div> 
+        
+        
+        
+        
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive" id="stake_withdraw_tbl">
+                        <table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Stake Code</th>
+                                    <th>Amount</th>
+                                    <th>Mode of Payment</th>
+                                    <th>Account Number</th>
+                                    <th>Account Name</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="acc_tbl">
+                                {% for stakecomwithdraw in stakecommswithdraw %}
+                                <tr>
+                                    <td>{{ stakecomwithdraw.sr_date }}</td>
+                                    <td>{{ stakecomwithdraw.sr_code }}</td>
+                                    <td>{{ stakecomwithdraw.sr_amount|floatformat:"2"|intcomma}}</td>
+                                    <td>{{ stakecomwithdraw.sr_mop }}</td>
+                                    <td>{{ stakecomwithdraw.sr_ac_name }}</td>
+                                    <td>{{ stakecomwithdraw.sr_ac_number }}</td>
+                                    <td>
+                                        {% if stakecomwithdraw.sr_status == 0 %}
+                                        <button type="button" class="btn btn-outline-warning btn-pill btn-sm mb-2 me-2"><small> WAITING</small></button>
+                                        {% elif stakecomwithdraw.sr_status == 1 %}
+                                        <button type="button" class="btn btn-outline-success btn-pill btn-sm mb-2 me-2"><small> APPROVED</small></button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+
+

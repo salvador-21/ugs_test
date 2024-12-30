@@ -1,0 +1,62 @@
+{% extends 'ugs_app/base.html' %}
+{% load static %}
+{% block body%}
+{% load humanize %}
+<div class="data-table-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div
+                        class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0 text-warning">Stake Earnings Withdrawal History</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive" id="import_raw_table">
+                        <table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Withdrawal By</th>
+                                    <th>Status</th>
+                                    <th>Withdraw Amount</th>
+                                    <th>MOP</th>
+                                    <th>Account Name</th>
+                                    <th>Account Number</th>
+                                    <th>Transaction</th>
+                                </tr>
+                            </thead>
+                            <tbody id="acc_tbl">
+                                {% for stakewithdarw in stakewithdarws %}
+                                <tr>
+                                    <td>{{ stakewithdarw.sw_date }}</td>
+                                    <td>{{ stakewithdarw.user }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-success btn-pill btn-sm mb-2 me-2"><small> APPROVED</small></button>
+                                    </td>
+                                    <td>{{ stakewithdarw.sw_withdraw|floatformat:"2"|intcomma}}</td>
+                                    <td>{{ stakewithdarw.sw_mop }}</td>
+                                    <td>{{ stakewithdarw.sw_ac_name }}</td>
+                                    <td>{{ stakewithdarw.sw_ac_number }}</td>
+                                    <td>{{ stakewithdarw.sw_code }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+
+

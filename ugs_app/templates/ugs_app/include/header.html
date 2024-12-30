@@ -1,0 +1,79 @@
+{% load static %}
+<header class="top-header-area d-flex align-items-center justify-content-between">
+    <div class="left-side-content-area d-flex align-items-center">
+        <!-- Mobile Logo -->
+        <div class="mobile-logo">
+            <a href="{% url 'homepage'%}"><img src="{% static 'ugs_app/img/logo2.png' %}" alt="Mobile Logo"></a>
+        </div>
+        
+        <!-- Triggers -->
+        <div class="flapt-triggers">
+            <div class="menu-collasped" id="menuCollasped">
+                <i class='bx bx-menu' ></i>
+            </div>
+            <div class="mobile-menu-open" id="mobileMenuOpen">
+               <i class='bx bx-menu' ></i>
+            </div>
+        </div>
+        
+        <!-- Left Side Nav -->
+  
+        {% if user.useraccount.usertype == 'PLAYER' or  user.useraccount.usertype == 'ADMIN' %}
+        <div class="nav-item text-white">
+            <p class="mb-0"><span class="fw-bolder fs-3 text-warning wbalance" id="walletview">
+                {% load humanize %}
+                <span class="text-warning" id="walletBalance">{{ user.userwallet.w_balance|floatformat:"2"|intcomma}}</span> 
+            </span></p>
+        </div>
+        {% endif %}
+  
+        
+        
+        
+    </div>
+    
+    <div class="right-side-navbar d-flex align-items-center justify-content-end">
+        <!-- Mobile Trigger -->
+        
+        <div class="right-side-trigger" >
+         
+            <li class="nav-item dropdown" style="list-style: none;">
+                
+                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false"><img src="{% static 'ugs_app/img/user.png' %}"
+                alt=""></button>
+                <div class="dropdown-menu profile dropdown-menu-right">
+                    <!-- User Profile Area -->
+                    <div class="user-profile-area">
+                        <a href="#" class="dropdown-item"><i class="bx bx-user font-15"aria-hidden="true"></i> {{user.username}}</a>
+                        <a href="#" class="dropdown-item"><i class="bx bx-wallet font-15"aria-hidden="true"></i> {{user.userwallet.w_balance}}</a>
+                        <a href="{% url 'setting' %}" class="dropdown-item"><i class="bx bx-wrench font-15"aria-hidden="true"></i> Setting</a>
+                        <a href="{% url 'signout' %}" class="dropdown-item"><i class="bx bx-power-off font-15"aria-hidden="true"></i> Sign-out</a>
+                    </div>
+                </div>
+            </li>
+    
+        </div>
+        
+         
+        <!-- Top Bar Nav -->
+        <ul class="right-side-content d-flex align-items-center">
+            
+            
+            
+            <li class="nav-item dropdown">
+                <span class="fw-bold text-white usertext" style="text-transform: capitalize;">{{user.username}}</span>
+                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false"><img src="{% static 'ugs_app/img/user.png' %}"
+                alt=""></button>
+                <div class="dropdown-menu profile dropdown-menu-right">
+                    <!-- User Profile Area -->
+                    <div class="user-profile-area">
+                        <a href="{% url 'setting' %}" class="dropdown-item"><i class="bx bx-wrench font-15"aria-hidden="true"></i> Setting</a>
+                        <a href="{% url 'signout' %}" class="dropdown-item"><i class="bx bx-power-off font-15"aria-hidden="true"></i> Sign-out</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</header>

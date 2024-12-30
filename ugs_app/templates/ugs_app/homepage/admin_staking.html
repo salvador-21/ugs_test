@@ -1,0 +1,187 @@
+{% extends '../base.html' %}
+
+{% block body %}
+{% load humanize %} 
+<div class="data-table-area">
+    <div class="container-fluid">
+        <div class="row g-2">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0 text-warning">Admin Staking Accounts</h4>                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+            
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> Total Stake</h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;">{{stakefund|floatformat:"2"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> Active Stake</h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;">{{stkactive|floatformat:"2"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> Stake Earnings</h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;">{{stkearning|floatformat:"2"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> Earnings Withdrawal</h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;">{{stkwithdraw|floatformat:"2"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> Active Commission</h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;">{{stkcomm|floatformat:"2"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> Withdraw Commission</h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;">{{stkcocoms|floatformat:"2"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        <div class="row g-1">
+            <div class="col-12 col-md-5 mb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="stakingForm" autocomplete="off">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <div class="mb-3">
+                                    <span class="">Username</span>
+                                    <select class="inputclass selectized acc_stat" name="userid" id="userid" onchange="selecteduser(this)">
+                                        <option value="">- - - </option>
+                                        {% for u in users %}
+                                        {% if u.username != user.useraccount.user %}
+                                        <option value="{{u.id}}|{{u.username}}|{{u.first_name}}, {{u.last_name}}">{{ u.username}} - [ {{u.first_name}}, {{u.last_name}} ]</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <i id="nfacc_stat" style="font-size:10px;color: red;"></i>
+                            </div>
+                            <div class="mb-3">
+                                <div class="mb-3">
+                                    <span class="">Amount  </span>
+                                    <input type="number" min="1"  class="form-control inputclass" name="stakeamnt" id="stakeamnt" onfocus="inputstake(this)" onkeyup="stakeAmount(this)" style="background-color: white;"/>
+                                </div> 
+                                <i id="nfadmincommi" style="font-size:10px;color: red;"></i>
+                            </div>
+                            <span id="uname" hidden></span>
+                            <span id="fname" hidden></span>
+                            <div class="mb-3 text-center">
+                                <h1 class="text-center text-warning" style="font-size: 20px;" id="amtname">0.00</h1>
+                                <label>Staking Amount</label>
+                            </div>
+                            <div class="card-footer ">
+                                <button type="submit" class="btn btn-outline-warning btn-pill pull-right" id="stakebtn"><i class="fa fa-spin fa-spinner f-16 loadstake" style="display:none;"></i>
+                                    Process Stake Load  <label style="color: rgb(252, 247, 247);font-weight: 600;" id="sendto" hidden></label>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        <div class="row g-3">
+            <div class="col-12"><br>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive" id="import_raw_table">
+                            <table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Code</th>
+                                        <th>Amount</th>
+                                        <th>Sender</th>
+                                        <th>Receiver</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for stake in adstakelist %}
+                                    <tr>
+                                        <td>{{ stake.s_id }}. </td>
+                                        <td>{{ stake.s_code }}</td>
+                                        <td>{{ stake.s_amount|floatformat:"2"|intcomma}}</td>
+                                        <td>{{ stake.s_sender.username }} - {{ stake.s_sender.first_name }}</td>
+                                        <td>{{ stake.s_user.username }} - {{ stake.s_user.first_name }}</td>
+                                        <td>{{ stake.s_date }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

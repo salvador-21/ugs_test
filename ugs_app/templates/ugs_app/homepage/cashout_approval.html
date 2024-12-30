@@ -1,0 +1,139 @@
+{% extends '../base.html' %}
+{% block body %}
+<div class="data-table-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            <div class="col-sm-6 col-lg-6 col-xxl-3 ">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon " >
+                                    <i class="bx bx-mouse-alt text-success" ></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5><span class="text-warning" style="font-size: 20px;" id="reqbal">{% load humanize %} {{ total_current|floatformat:"2"|intcomma}}</span> | new cashout request</h5>
+                                    <p class="mb-0">Cashout request</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                                <!-- <p> 0.00</p> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-6 col-xxl-3 ">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon " >
+                                    <i class="bx bx-mouse-alt text-success" ></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5><span class="text-warning" style="font-size: 20px;" id="appbal">{% load humanize %} {{ total_approved|floatformat:"2"|intcomma}}</span> |  approved </h5>
+                                    <p class="mb-0">Cashout approved</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-6 col-xxl-3 ">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon " >
+                                    <i class="bx bx-mouse-alt text-success" ></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5><span class="text-warning" style="font-size: 20px;" id="decbal">{% load humanize %} {{ total_declined|floatformat:"2"|intcomma}}</span> | Declined</h5>
+                                    <p class="mb-0">Cashout declined</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-6 col-xxl-3 ">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon " >
+                                    <i class="bx bx-mouse-alt text-success" ></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5><span class="text-warning" style="font-size: 20px;" id="agenttbal">{% load humanize %} {{ user.userwallet.w_balance|floatformat:"2"|intcomma}}</span> |  balance</h5>
+                                    <p class="mb-0">Wallet Points</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive" id="import_new_table">
+                            <table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+                                <thead>
+                                    <tr>
+                                        <!-- <th>#</th> -->
+                                        <th>Transactions</th>
+                                        <th>Requestor</th>
+                                        <th>Amount</th>
+                                        <th>Date Request</th>
+                                        <th>Date Approved</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for cashout in couttransact %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}. {{ cashout.cw_code }} </td>
+                                        <td>{{ cashout.cw_player.username }} </td>
+                                        <td><span class="text-danger">- </span></span>{{ cashout.cw_out|floatformat:"2"|intcomma}}</td>
+                                        <td>{{ cashout.cw_created }}</td>
+                                        <td>{{ cashout.cw_appdate }}</td>
+                                        <td>
+                                            {% if cashout.cw_stat == '0' %}
+                                            <button type="button" class="btn btn-outline-warning btn-pill btn-sm mb-2 me-2 coutbtn" requestor="{{ cashout.cw_player.username }}" out_id="{{cashout.cw_code}}" out_amt="{{cashout.cw_out}}"><small> WAITING</small></button>
+                                            {% elif cashout.cw_stat == '1' %}
+                                            <button type="button" class="btn btn-outline-success btn-pill btn-sm mb-2 me-2" disabled><small>APPROVED</small></button>
+                                            {% elif cashout.cw_stat == '2' %}
+                                            <button type="button" class="btn btn-outline-danger btn-pill btn-sm mb-2 me-2" disabled><small>DECLINED</small></button>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

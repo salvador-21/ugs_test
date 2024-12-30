@@ -1,0 +1,88 @@
+{% load humanize %}
+<table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Code</th>
+            <th>Transaction Type</th>
+            <th>Amount</th>
+            <th>Balance</th>
+            <th>Sender</th>
+            <th>Receiver</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for points in agentPointsList %}
+        <tr>
+            <td>{{ points.p_id }}. </td>
+            <td>{{ points.p_code }}</td>
+            <td>
+                {% if points.p_transtype == 'DEPOSIT' %} 
+                <button type="button" class="btn btn-outline-danger btn-pill btn-sm mb-2 me-2"><small>{{ points.p_transtype }}</small></button>
+                {% elif points.p_transtype == 'WITHDRAW' %}
+                <button type="button" class="btn btn-outline-success btn-pill btn-sm mb-2 me-2"><small>{{ points.p_transtype }}</small></button>
+                {% elif points.p_transtype == 'CONVERT' %}
+                <button type="button" class="btn btn-outline-warning btn-pill btn-sm mb-2 me-2"><small>{{ points.p_transtype }}</small></button>
+                {% endif %}
+            </td>
+            <td>
+                {% if points.p_transtype == 'DEPOSIT' and points.p_receiver.id == user.id %} 
+                <span class="text-success">+ </span>
+                {% elif points.p_transtype == 'DEPOSIT' and points.p_sender.id == user.id %}
+                <span class="text-danger">- </span>
+                {% elif points.p_transtype == 'WITHDRAW' and points.p_sender.id == user.id %}
+                <span class="text-danger">- </span>
+                {% elif points.p_transtype == 'WITHDRAW' and points.p_receiver.id == user.id %}
+                <span class="text-success">+ </span>
+                {% elif points.p_transtype == 'CONVERT' %}
+                <span class="text-success">+ </span>
+                {% endif %}
+                {{ points.p_amount|floatformat:"2"|intcomma }}
+            </td>
+            <td>
+                {% if points.p_transtype == 'DEPOSIT' and points.p_sender.id == user.id %}
+                {{ points.p_agentbal|floatformat:"2"|intcomma }}
+
+                {% elif points.p_transtype == 'DEPOSIT' and points.p_receiver.id == user.id %}
+                {{ points.p_balance|floatformat:"2"|intcomma }}
+                
+                {% elif points.p_transtype == 'WITHDRAW' and points.p_sender.id == user.id %}
+                {{ points.p_agentbal|floatformat:"2"|intcomma }} 
+
+                {% elif points.p_transtype == 'WITHDRAW' and points.p_receiver.id == user.id %}
+                {{ points.p_balance|floatformat:"2"|intcomma }} 
+
+                {% elif points.p_transtype == 'CONVERT' and points.p_sender.id == user.id %}
+                {{ points.p_balance|floatformat:"2"|intcomma }}
+                
+                {% else %}
+                0.00
+                {% endif %}
+            </td>
+            <td>{{ points.p_sender.username }} - {{ points.p_sender.first_name }} {{ points.p_sender.last_name }}</td>
+            <td>{{ points.p_receiver.username }} - {{ points.p_receiver.first_name }} {{ points.p_receiver.last_name }}</td>
+            <td>{{ points.p_created }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script>
+    $("#selection-datatable").DataTable({
+        select: { style: "multi" },
+        language: { paginate: { previous: "<i class='bx bx-chevron-left'></i>", next: "<i class='bx bx-chevron-right'></i>" } },
+        drawCallback: function () {
+            $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+        },
+    })
+</script>
+<script>
+    $(document).ready(function() {
+        if ($.fn.DataTable.isDataTable('#selection-datatable')) {
+            $('#selection-datatable').DataTable().destroy();
+        }
+        $('#selection-datatable').DataTable({
+            "ordering": false
+        });
+    });
+</script>

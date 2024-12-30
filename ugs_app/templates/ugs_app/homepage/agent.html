@@ -1,0 +1,135 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block body%}
+{% load humanize %}
+<!-- /////////////////// -->
+<div class="dashboard-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+
+            {% if user.useraccount.usertype != 'PLAYER' %}
+            <div class="col-12">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="clipboardInput" value="{{ user.useraccount.referral_link}}" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button class="btn btn-warning btn-clipboard" type="button" id="button-addon2" data-clipboard-action="copy" data-clipboard-target="#clipboardInput"><i class="fa fa-copy me-2"></i>Copy</button>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if user.useraccount.usertype == 'MASTER OPERATOR' or user.useraccount.usertype == 'INCORPORATOR' or user.useraccount.usertype == 'SUB ADMIN' or user.useraccount.usertype == 'SUB OPERATOR' or user.useraccount.usertype == 'MASTER AGENT' %}
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="carouselExampleAutoplaying" class="carousel slide pointer-event" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="{% static 'ugs_app/banner/s2.jpg' %}" class="d-block w-100" alt="...">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{% static 'ugs_app/banner/s1.jpg' %}" class="d-block w-100" alt="...">
+                                </div>
+                                
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            
+            
+            {% if user.useraccount.usertype != 'PLAYER' %}
+            <div class="col-6 col-sm-6 col-lg-6 col-xxl-3 ">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon " >
+                                    <i class="bx bx-wallet-alt text-success" ></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5><span class="text-warning" style="font-size: 20px;"> {{ user.userwallet.w_balance|floatformat:"2"|intcomma}}</span></h5>
+                                    <p class="mb-0">Total Wallet</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-6 col-lg-6 col-xxl-3">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon">
+                                    <i class="bx bx-calendar text-success"></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5>
+                                        <span class="text-warning" style="font-size: 20px;"> {{ mydailycoms|floatformat:"2"|intcomma}}</span> 
+                                    </h5>
+                                    <p class="mb-0">Daily Rewards</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-6 col-lg-6 col-xxl-3">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon">
+                                    <i class="bx bx-chart text-success"></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5>
+                                        <span class="text-warning" style="font-size: 20px;"> {{ user.userwallet.w_commission|floatformat:"2"|intcomma}}</span> 
+                                    </h5>
+                                    <p class="mb-0">Total Accumulated Rewards</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="col-6 col-sm-6 col-lg-6 col-xxl-3">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon">
+                                    <i class="bx bx-list-check text-success"></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5><span class="text-warning" style="font-size: 20px;"> {{adactivecom|floatformat:"2"|intcomma}}</span> </h5>
+                                    <p class="mb-0">Active Rewards</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                                <p class="no-wrap">{{ comrates|floatformat:"2"|intcomma}}%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>          
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

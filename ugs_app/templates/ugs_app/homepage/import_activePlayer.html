@@ -1,0 +1,55 @@
+{% load humanize %}
+<table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+    <thead>
+        <tr>
+            <th>Date Joined</th>
+            <th>Username</th>
+            <th>Full Name</th>
+            <th>Category</th>
+            <th>Wallet Points</th>
+            <th>Refer By</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for u in users %}
+        <tr>
+            <td>{{u.date_joined}}</td>
+            <td class="text-white fs-4">{{ u.username}}</td>
+            <td class="text-white fs-4" style="text-transform: capitalize;">{{ u.first_name}}, {{ u.last_name}}</td>
+            <td>{{ u.useraccount.usertype}}</td>
+            <td>{{ u.userwallet.w_balance|floatformat:"2"|intcomma}}</td>
+            <td style="text-transform: capitalize;" class="fw-bolder">{{ u.useraccount.user_agent}}</td>
+            <td>
+                {% if u.useraccount.status == 'ACTIVE' %}
+                <button type="button" class="btn btn-outline-success btn-pill btn-sm mb-2 me-2 btn-actvateplyr" acct="{{ u.username}}" accid="{{ u.id}}" comrate="{{ u.userwallet.commission_rate}}" pltype="{{ u.useraccount.usertype}}" plstatus="{{u.useraccount.status}}"> ACTIVE</button>
+                {% elif u.useraccount.status == 'INACTIVE' %}
+                <button type="button" class="btn btn-outline-warning btn-pill btn-sm mb-2 me-2 btn-actvateplyr" acct="{{ u.username}}" accid="{{ u.id}}" comrate="{{ u.userwallet.commission_rate}}" pltype="{{ u.useraccount.usertype}}" plstatus="{{u.useraccount.status}}"> INACTIVE</button>
+                {% else %}
+                <button type="button" class="btn btn-outline-danger btn-pill btn-sm mb-2 me-2 btn-actvateplyr" acct="{{ u.username}}" accid="{{ u.id}}" comrate="{{ u.userwallet.commission_rate}}" pltype="{{ u.useraccount.usertype}}" plstatus="{{u.useraccount.status}}"> BANNED</button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    $("#selection-datatable").DataTable({
+            select: { style: "multi" },
+            language: { paginate: { previous: "<i class='bx bx-chevron-left'></i>", next: "<i class='bx bx-chevron-right'></i>" } },
+            drawCallback: function () {
+                $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+            },
+        })
+</script>
+<script>
+    $(document).ready(function() {
+        if ($.fn.DataTable.isDataTable('#selection-datatable')) {
+            $('#selection-datatable').DataTable().destroy();
+        }
+        $('#selection-datatable').DataTable({
+            "ordering": false
+        });
+    });
+</script>

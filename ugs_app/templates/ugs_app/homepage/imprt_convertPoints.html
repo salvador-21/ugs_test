@@ -1,0 +1,38 @@
+{% load humanize %}
+<table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Code</th>
+            <th>Converted</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for betcomm in betcomms %}
+        <tr>
+            <td>{{ betcomm.r_date }}</td>
+            <td>{{ betcomm.r_code }}</td>
+            <td><span class="text-success">+ </span>{{ betcomm.r_amount|floatformat:"2"|intcomma}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script>
+    $("#selection-datatable").DataTable({
+            select: { style: "multi" },
+            language: { paginate: { previous: "<i class='bx bx-chevron-left'></i>", next: "<i class='bx bx-chevron-right'></i>" } },
+            drawCallback: function () {
+                $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+            },
+        })
+</script>
+<script>
+    $(document).ready(function() {
+        if ($.fn.DataTable.isDataTable('#selection-datatable')) {
+            $('#selection-datatable').DataTable().destroy();
+        }
+        $('#selection-datatable').DataTable({
+            "ordering": false
+        });
+    });
+</script>

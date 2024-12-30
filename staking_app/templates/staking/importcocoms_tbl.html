@@ -1,0 +1,58 @@
+{% load humanize %}
+<table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Stake Code</th>
+            <th>Status</th>
+            <th>Amount</th>
+            <th>Mode of Payment</th>
+            <th>Account Number</th>
+            <th>Account Name</th>
+        </tr>
+    </thead>
+    <tbody id="acc_tbl">
+        {% for stkcomcout in stakecommswithdraw %}
+        <tr>
+            <td>{{ stkcomcout.sr_date }}</td>
+            <td>{{ stkcomcout.sr_code }}</td>
+            <td>
+                <button type="button" class="btn btn-outline-warning btn-pill btn-sm mb-2 me-2 coutconfirm"  
+                rowid="{{ stkcomcout.sr_id }}"
+                adw_code="{{ stkcomcout.sr_code }}"
+                adw_amount="{{ stkcomcout.sr_amount }}"
+                adw_mop="{{ stkcomcout.sr_mop }}"
+                adw_acname="{{ stkcomcout.sr_ac_name }}"
+                adw_acnumber="{{ stkcomcout.sr_ac_number }}"
+                
+                ><small> WAITING</small></button>
+            </td>
+            <td>{{ stkcomcout.sr_amount|floatformat:"2"|intcomma}}</td>
+            <td>{{ stkcomcout.sr_mop }}</td>
+            <td>{{ stkcomcout.sr_ac_name }}</td>
+            <td>{{ stkcomcout.sr_ac_number }}</td>
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    $("#selection-datatable").DataTable({
+        select: { style: "multi" },
+        language: { paginate: { previous: "<i class='bx bx-chevron-left'></i>", next: "<i class='bx bx-chevron-right'></i>" } },
+        drawCallback: function () {
+            $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+        },
+    })
+</script>
+<script>
+    $(document).ready(function() {
+        if ($.fn.DataTable.isDataTable('#selection-datatable')) {
+            $('#selection-datatable').DataTable().destroy();
+        }
+        $('#selection-datatable').DataTable({
+            "ordering": false
+        });
+    });
+</script>

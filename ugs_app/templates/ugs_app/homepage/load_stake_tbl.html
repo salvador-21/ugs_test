@@ -1,0 +1,46 @@
+{% load humanize %}
+<table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Code</th>
+            <th>Amount</th>
+            <th>Sender</th>
+            <th>Receiver</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for stake in adstakelist %}
+        <tr>
+            <td>{{ stake.s_id }}. </td>
+            <td>{{ stake.s_code }}</td>
+            <td>{{ stake.s_amount|floatformat:"2"|intcomma}}</td>
+            <td>{{ stake.s_sender.username }} - {{ stake.s_sender.first_name }}</td>
+            <td>{{ stake.s_user.username }} - {{ stake.s_user.first_name }}</td>
+            <td>{{ stake.s_date }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<script>
+    $("#selection-datatable").DataTable({
+            select: { style: "multi" },
+            language: { paginate: { previous: "<i class='bx bx-chevron-left'></i>", next: "<i class='bx bx-chevron-right'></i>" } },
+            drawCallback: function () {
+                $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+            },
+        })
+</script>
+<script>
+    $(document).ready(function() {
+        if ($.fn.DataTable.isDataTable('#selection-datatable')) {
+            $('#selection-datatable').DataTable().destroy();
+        }
+        $('#selection-datatable').DataTable({
+            "ordering": false
+        });
+    });
+</script>

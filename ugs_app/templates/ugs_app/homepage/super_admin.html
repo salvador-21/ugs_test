@@ -1,0 +1,96 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block body%}
+{% load humanize %} 
+<div class="dashboard-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            
+            
+            
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> USERS</h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;">{{ totalusers|floatformat:"0"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> INACTIVE</h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;">{{ inactiveusers|floatformat:"0"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> ACTIVE</h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;">{{activeusers|floatformat:"0"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+
+        <br>
+        <div class="row g-4">
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> DEPOSIT</h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;">{{spdeposit|floatformat:"2"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> WITHDRAW</h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;">{{spwithdraw|floatformat:"2"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> TOTAL</h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;">{{ user.userwallet.w_balance|floatformat:"2"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

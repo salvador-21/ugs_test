@@ -1,0 +1,58 @@
+{% load humanize %}
+<table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Withdrawal By</th>
+            <th>Status</th>
+            <th>Withdraw Amount</th>
+            <th>MOP</th>
+            <th>Account Name</th>
+            <th>Account Number</th>
+            <th>Transaction</th>
+        </tr>
+    </thead>
+    <tbody id="acc_tbl">
+        {% for stakewithdarw in stakewithdarws %}
+        <tr>
+            <td>{{ stakewithdarw.sw_date }}</td>
+            <td>{{ stakewithdarw.user }}</td>
+            <td>
+                <button type="button" class="btn btn-outline-danger btn-pill btn-sm mb-2 me-2 stkwithdrawconform" 
+                rowid="{{ stakewithdarw.sw_id }}"
+                adw_code="{{ stakewithdarw.sw_code }}"
+                adw_amount="{{ stakewithdarw.sw_withdraw }}"
+                adw_mop="{{ stakewithdarw.sw_mop }}"
+                adw_acname="{{ stakewithdarw.sw_ac_name }}"
+                adw_acnumber="{{ stakewithdarw.sw_ac_number }}"
+                ><small> PENDING</small></button>
+            </td>
+            <td>{{ stakewithdarw.sw_withdraw|floatformat:"2"|intcomma}}</td>
+            <td>{{ stakewithdarw.sw_mop }}</td>
+            <td>{{ stakewithdarw.sw_ac_name }}</td>
+            <td>{{ stakewithdarw.sw_ac_number }}</td>
+            <td>{{ stakewithdarw.sw_code }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    $("#selection-datatable").DataTable({
+        select: { style: "multi" },
+        language: { paginate: { previous: "<i class='bx bx-chevron-left'></i>", next: "<i class='bx bx-chevron-right'></i>" } },
+        drawCallback: function () {
+            $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+        },
+    })
+</script>
+<script>
+    $(document).ready(function() {
+        if ($.fn.DataTable.isDataTable('#selection-datatable')) {
+            $('#selection-datatable').DataTable().destroy();
+        }
+        $('#selection-datatable').DataTable({
+            "ordering": false
+        });
+    });
+</script>

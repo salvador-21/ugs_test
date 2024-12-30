@@ -1,0 +1,94 @@
+{% load humanize %}  
+<table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Fight Event</th>
+            <th>Fight No.</th>
+            <th>Bet Amount</th>
+            <th>Won Amount</th>
+            <th>Betting</th>
+            <th>Status</th>
+            <th>Balance</th>
+            <th>Wallet</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for bethistory in bethistorys %}
+        <tr>
+            <td>{{ bethistory.created }}</td>
+            <td>{{ bethistory.event }}</td>
+            <td>{{ bethistory.fightno}}</td>
+            <td>
+                <span class="text-danger">- </span>
+                {{ bethistory.amount|floatformat:"2"|intcomma}}
+            </td>
+            <td>
+                {% if bethistory.status == 'PENDING' %} 
+                <span class="text-success">&nbsp;</span>
+                {% elif bethistory.status == 'WIN' %}
+                <span class="text-success">+ </span>
+                {% elif bethistory.status == 'LOSE' %}
+                <span class="text-danger">- </span>
+                {% endif %}
+                {{ bethistory.won_amnt|floatformat:"2"|intcomma}}
+            </td>
+            <td>
+                {% if bethistory.category == 'MERON' %}
+                <button type="button" class="btn btn-outline-danger btn-pill btn-sm mb-2 me-2"><small>MERON</small></button>
+                {% elif bethistory.category == 'WALA' %}
+                <button type="button" class="btn btn-outline-primary btn-pill btn-sm mb-2 me-2"><small>&nbsp;WALA&nbsp;&nbsp; </small></button>
+                {% elif bethistory.category == 'DRAW' %}
+                <button type="button" class="btn btn-outline-success btn-pill btn-sm mb-2 me-2"><small>&nbsp;DRAW&nbsp;&nbsp; </small></button>
+                {% elif bethistory.category == 'CANCELLED' %}
+                <button type="button" class="btn btn-outline-warning btn-pill btn-sm mb-2 me-2"><small>&nbsp;CANCELLED&nbsp;&nbsp; </small></button>
+                {% endif %}
+            </td>
+            <td>
+                {% if bethistory.status == 'PENDING' %} 
+                <button type="button" class="btn btn-outline-warning btn-pill btn-sm mb-2 me-2"><small>PENDING</small></button>
+                {% elif bethistory.status == 'WIN' %}
+                <button type="button" class="btn btn-outline-success btn-pill btn-sm mb-2 me-2"><small>&nbsp;&nbsp;&nbsp;&nbsp;WIN&nbsp;&nbsp;&nbsp;&nbsp;</small></button>
+                {% elif bethistory.status == 'LOSE' %}
+                <button type="button" class="btn btn-outline-secondary btn-pill btn-sm mb-2 me-2"><small>&nbsp;&nbsp;LOSE&nbsp;&nbsp;&nbsp;</small></button>
+                {% elif bethistory.status == 'CANCELLED' %}
+                <button type="button" class="btn btn-outline-danger btn-pill btn-sm mb-2 me-2"><small>&nbsp;CANCEL&nbsp;&nbsp;</small></button>
+                {% elif bethistory.status == 'DRAW' %}
+                <button type="button" class="btn btn-outline-primary btn-pill btn-sm mb-2 me-2"><small>&nbsp;DRAW&nbsp;&nbsp;</small></button>
+                {% endif %}
+            </td>
+            <td> 
+                <button type="button" class="btn btn-success btn-pill btn-sm mb-2 me-2 f-22">
+                    {{ bethistory.walletbal|floatformat:"2"|intcomma}}
+                </button>  
+            </td>
+            <td> 
+                <button type="button" class="btn btn-success btn-pill btn-sm mb-2 me-2 f-22">
+                    {{ bethistory.waltotal|floatformat:"2"|intcomma}}
+                </button>  
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    $("#selection-datatable").DataTable({
+            select: { style: "multi" },
+            language: { paginate: { previous: "<i class='bx bx-chevron-left'></i>", next: "<i class='bx bx-chevron-right'></i>" } },
+            drawCallback: function () {
+                $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+            },
+        })
+</script>
+<script>
+    $(document).ready(function() {
+        if ($.fn.DataTable.isDataTable('#selection-datatable')) {
+            $('#selection-datatable').DataTable().destroy();
+        }
+        $('#selection-datatable').DataTable({
+            "ordering": false
+        });
+        $('.tablespinner').fadeOut();
+    });
+</script>

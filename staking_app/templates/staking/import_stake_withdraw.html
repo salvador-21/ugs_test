@@ -1,0 +1,53 @@
+{% load humanize %}
+<table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Transaction</th>
+            <th>Withdraw Amount</th>
+            <th>MOP</th>
+            <th>Account Name</th>
+            <th>Account Number</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody id="acc_tbl">
+        {% for stakewithdarw in stakewithdarws %}
+        <tr>
+            <td>{{ stakewithdarw.sw_date }}</td>
+            <td>{{ stakewithdarw.sw_code }}</td>
+            <td><span class="text-danger">- </span>{{ stakewithdarw.sw_withdraw|floatformat:"2"|intcomma}}</td>
+            <td>{{ stakewithdarw.sw_mop }}</td>
+            <td>{{ stakewithdarw.sw_ac_name }}</td>
+            <td>{{ stakewithdarw.sw_ac_number }}</td>
+            <td>
+                {% if stakewithdarw.sw_status == 'PENDING' %}
+                <button type="button" class="btn btn-outline-danger btn-pill btn-sm mb-2 me-2"><small>PENDING</small></button>
+                {% elif stakewithdarw.sw_status == 'APPROVED' %}
+                <button type="button" class="btn btn-outline-success btn-pill btn-sm mb-2 me-2"><small>APPROVED</small></button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    $("#selection-datatable").DataTable({
+            select: { style: "multi" },
+            language: { paginate: { previous: "<i class='bx bx-chevron-left'></i>", next: "<i class='bx bx-chevron-right'></i>" } },
+            drawCallback: function () {
+                $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+            },
+        })
+</script>
+<script>
+    $(document).ready(function() {
+        if ($.fn.DataTable.isDataTable('#selection-datatable')) {
+            $('#selection-datatable').DataTable().destroy();
+        }
+        $('#selection-datatable').DataTable({
+            "ordering": false
+        });
+    });
+</script>

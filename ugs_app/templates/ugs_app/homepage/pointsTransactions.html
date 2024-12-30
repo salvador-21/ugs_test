@@ -1,0 +1,70 @@
+
+<div class="mb-3">
+    <span>Username:</span>
+    <select class="selectized withdrawaccount" id="withdrawaccount">
+        <option value=""> - - -</option>
+        {% for u in users %}
+        <option value="{{ u.id}} | {{ u.username}}">{{ u.username}}</option>
+        {% endfor %}
+    </select>
+</div>
+
+
+<input type="hidden" id="actiontype" value="{{transtype}}"/>
+{% if transtype == 'DEPOSIT'%}
+<div class="col-sm-12 col-lg-12 col-xxl-12 ">
+    <div class="single-widget d-flex align-items-center justify-content-between">
+        <div>
+            <div class="widget-desc">
+                <h5><span class="text-white" style="font-size: 20px;" id="selectedusr" hidden></span></h5>
+                <h5><span class="text-warning" style="font-size: 20px;" id="wallet_bal">{% load humanize %} {{ uwallet|floatformat:"2"|intcomma}}</span> |  <span style="font-weight: 50;"> My wallet <i class="bx bx-wallet text-success" style="font-weight: 50;"></i></span></h5>
+            </div>
+        </div>
+    </div>
+    <div class="mb-1">
+        <span>Amount:</span>
+        <input type="number" min="1" class="form-control inputclass" id="load_point" value="0" onfocus="inputFocus(this)" onkeyup="agpointAmnt(this)"/>
+        <input type="hidden" id="walletpoints" value="{{uwallet}}"/>
+    </div>
+</div>
+<div class="mb-3 text-center">
+    <h1 class="text-center text-warning" style="font-size: 20px;" id="agpointamnt">0.00</h1>
+    <label>Points Amount</label>
+</div>
+{% elif transtype == 'WITHDRAW' %}
+<div class="col-sm-12 col-lg-12 col-xxl-12 ">
+    <div class="single-widget d-flex align-items-center justify-content-between">
+        <div>
+            <div class="widget-desc">
+                <h5 hidden><span class="text-white" style="font-size: 20px;text-transform: lowercase;" id="selectedusr"></span></h5>
+                <h5><span class="text-warning" style="font-size: 20px;" id="wallet_bal">0.00</span> |  <span style="font-weight: 50;">Downline wallet <i class="bx bx-wallet text-success" style="font-weight: 50;"></i></span></h5>
+            </div>
+        </div>
+    </div>
+    <div class="mb-1">
+        <span>Amount:</span>
+        <input type="number" min="1" class="form-control inputclass" id="load_point"value="0" onfocus="inputFocus(this)" onkeyup="agpointAmnt(this)"/>
+        <input type="hidden" id="walletpoints" value="0"/>
+    </div>
+</div>
+<div class="mb-1 text-center">
+    <h1 class="text-center text-warning" style="font-size: 20px;" id="agpointamnt">0.00</h1>
+    <label>Points Amount</label>
+</div>
+{% endif %}
+
+
+
+
+<script type="text/javascript">
+    $('.selectized').selectize({
+        sortField: 'text'
+    });
+    
+    var load_point = document.getElementById('load_point');
+    load_point.addEventListener("keydown", function(e) {
+        if (invalidChars.includes(e.key)) {
+            e.preventDefault();
+        }
+    });
+</script>

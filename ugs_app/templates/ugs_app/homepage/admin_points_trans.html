@@ -1,0 +1,71 @@
+
+<div class="mb-3">
+    <span>Username:</span>
+    <select class="selectized adwithdrawaccount" id="adwithdrawaccount">
+        <option value=""> - - -</option>
+        {% for u in users %}
+        <option value="{{ u.id}} | {{ u.username}}">{{ u.username}}</option>
+        {% endfor %}
+    </select>
+</div>
+
+
+<input type="hidden" id="adactiontype" value="{{transtype}}"/>
+{% if transtype == 'DEPOSIT'%}
+<div class="col-sm-12 col-lg-12 col-xxl-12 ">
+    <div class="single-widget d-flex align-items-center justify-content-between">
+        <div>
+            <div class="widget-desc">
+                <h5><span class="text-white" style="font-size: 20px;" id="adselectedusr" hidden></span></h5>
+                <h5><span class="text-warning" style="font-size: 20px;" id="adwallet_bal">{% load humanize %} {{ uwallet|floatformat:"2"|intcomma}}</span> |  <span style="font-weight: 50;"> My wallet <i class="bx bx-wallet text-success" style="font-weight: 50;"></i></span></h5>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <span>Amount:</span>
+        <input type="number" min="1" class="form-control inputclass" id="adload_point" value="0" onfocus="inputFocuss(this)" onkeyup="pointsAmount(this)"/>
+        <input type="hidden" id="adwalletpoints" value="{{uwallet}}"/>
+    </div>
+</div>
+<div class="text-center">
+    <h1 class="text-center text-warning" style="font-size: 20px;" id="vpoint_amnt">0.00</h1>
+    <label>Points Amount</label>
+</div>
+{% elif transtype == 'WITHDRAW' %}
+<div class="col-sm-12 col-lg-12 col-xxl-12 ">
+    <div class="single-widget d-flex align-items-center justify-content-between">
+        <div>
+            <div class="widget-desc">
+                <h5 hidden><span class="text-white" style="font-size: 20px;text-transform: lowercase;" id="adselectedusr"></span></h5>
+                <h5><span class="text-warning" style="font-size: 20px;" id="adwallet_bal">0.00</span> |  <span style="font-weight: 50;">Downline wallet <i class="bx bx-wallet text-success" style="font-weight: 50;"></i></span></h5>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <span>Amount:</span>
+        <input type="number" min="1" class="form-control inputclass" id="adload_point" value="0" onfocus="inputFocuss(this)" onkeyup="pointsAmount(this)"/>
+        <input type="hidden" id="adwalletpoints" value="0"/>
+    </div>
+</div>
+<div class=" text-center">
+    <h1 class="text-center text-warning" style="font-size: 20px;" id="vpoint_amnt">0.00</h1>
+    <label>Points Amount</label>
+</div>
+{% endif %}
+
+
+
+
+<script type="text/javascript">
+    $('.selectized').selectize({
+        sortField: 'text'
+    });
+</script>
+<script>
+    var adload_point = document.getElementById('adload_point');
+    adload_point.addEventListener("keydown", function(e) {
+        if (invalidChars.includes(e.key)) {
+            e.preventDefault();
+        }
+    });
+</script>

@@ -1,0 +1,50 @@
+<div class="modal fade mt-4" id="stake_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title font-30" id="game_title">Clock Staking</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="msg"></div>
+                <form id="stake_frm" autocomplete="off">
+                    {% csrf_token%}
+        {{ stakeform }}
+                <!-- <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Stake Type:</label>
+                    <input type="text" class="form-control stake_user" name="user" value="{{user}}" readonly>
+                </div>
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Stake Type:</label>
+                        <input type="text" class="form-control stake_name" name="s_name" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Stake Rate:</label>
+                        <input type="text" class="form-control stake_rate" name="stake_rate" readonly>
+                        <input type="text" class="form-control stake_r" name="s_rate" value="10" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Stake Amount:</label>
+                        <input type="number" class="form-control stake_amount" name="s_amount" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Stake Amount:</label>
+                        <input type="number" class="form-control stake_durations" name="s_duration" >
+                    </div> -->
+              
+                    
+            </div>
+            <div class="adduser_err">
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> -->
+                <button type="submit" for="addgame" class="btn btn-warning">Submit</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+</div>

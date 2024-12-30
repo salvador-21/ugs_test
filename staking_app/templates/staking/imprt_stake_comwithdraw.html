@@ -1,0 +1,53 @@
+{% load humanize %}
+<table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Stake Code</th>
+            <th>Amount</th>
+            <th>Mode of Payment</th>
+            <th>Account Number</th>
+            <th>Account Name</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody id="acc_tbl">
+        {% for stakecomwithdraw in stakecommswithdraw %}
+        <tr>
+            <td>{{ stakecomwithdraw.sr_date }}</td>
+            <td>{{ stakecomwithdraw.sr_code }}</td>
+            <td>{{ stakecomwithdraw.sr_amount|floatformat:"2"|intcomma}}</td>
+            <td>{{ stakecomwithdraw.sr_mop }}</td>
+            <td>{{ stakecomwithdraw.sr_ac_name }}</td>
+            <td>{{ stakecomwithdraw.sr_ac_number }}</td>
+            <td>
+                {% if stakecomwithdraw.sr_status == 0 %}
+                <button type="button" class="btn btn-outline-warning btn-pill btn-sm mb-2 me-2"><small> WAITING</small></button>
+                {% elif stakecomwithdraw.sr_status == 1 %}
+                <button type="button" class="btn btn-outline-success btn-pill btn-sm mb-2 me-2"><small> APPROVED</small></button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    $("#selection-datatable").DataTable({
+        select: { style: "multi" },
+        language: { paginate: { previous: "<i class='bx bx-chevron-left'></i>", next: "<i class='bx bx-chevron-right'></i>" } },
+        drawCallback: function () {
+            $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+        },
+    })
+</script>
+<script>
+    $(document).ready(function() {
+        if ($.fn.DataTable.isDataTable('#selection-datatable')) {
+            $('#selection-datatable').DataTable().destroy();
+        }
+        $('#selection-datatable').DataTable({
+            "ordering": false
+        });
+    });
+</script>

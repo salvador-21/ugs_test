@@ -1,0 +1,75 @@
+
+{% load humanize %}
+<table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+    <thead>
+        <tr>
+            <th>Date Joined</th>
+            <th>Username</th>
+            <th>Category</th>
+            <th>Wallet Points</th>
+            <th>Comm Rate (%)</th>
+            <th>Refer By</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for u in users %}
+        {% if u.useraccount.usertype != 'SUPER ADMIN' %}
+        <tr>
+            <td>{{u.date_joined}} {{u.useraccount.status}}</td>
+            <td class="text-white fs-4">{{ u.username}}</td>
+            <td>{{ u.useraccount.usertype}}</td>
+            <td>{{ u.userwallet.w_balance|floatformat:"2"|intcomma}}</td>
+            <td>{{ u.comrate|floatformat:"2"|intcomma }}%</td>
+            <td style="text-transform: capitalize;" class="fw-bolder">{{ u.useraccount.user_agent}}</td>
+            <td>
+                {% if u.useraccount.status == 'ACTIVE' %}
+                {% if u.useraccount.user_agent.id == userId %}
+                <button type="button" class="btn btn-success btn-pill btn-sm mb-2 me-2 activateaccount" acct="{{ u.username}}" accid="{{ u.id}}" comrate="{{ u.userwallet.commission_rate}}" plstat="{{ u.useraccount.usertype}}" userstat="{{ u.useraccount.status}}"  myagent="{{u.useraccount.user_agent.id}}">ACTIVE</button>
+                {% else %}
+                <button type="button" class="btn btn-outline-success btn-pill btn-sm mb-2 me-2 activateaccount" acct="{{ u.username}}" accid="{{ u.id}}" comrate="{{ u.userwallet.commission_rate}}" plstat="{{ u.useraccount.usertype}}" userstat="{{ u.useraccount.status}}"  myagent="{{u.useraccount.user_agent.id}}">ACTIVE</button>
+                {% endif %}
+                
+                {% elif u.useraccount.status == 'INACTIVE' %}
+                {% if u.useraccount.user_agent.id == userId %}
+                <button type="button" class="btn btn-warning btn-pill btn-sm mb-2 me-2 activateaccount" acct="{{ u.username}}" accid="{{ u.id}}" comrate="{{ u.userwallet.commission_rate}}" plstat="{{ u.useraccount.usertype}}" userstat="{{ u.useraccount.status}}"  myagent="{{u.useraccount.user_agent.id}}"> INACTIVE</button>
+                {% else %}
+                <button type="button" class="btn btn-outline-warning btn-pill btn-sm mb-2 me-2 activateaccount" acct="{{ u.username}}" accid="{{ u.id}}" comrate="{{ u.userwallet.commission_rate}}" plstat="{{ u.useraccount.usertype}}" userstat="{{ u.useraccount.status}}"  myagent="{{u.useraccount.user_agent.id}}">INACTIVE</button>
+                {% endif %}
+
+
+                {% else %}
+                {% if u.useraccount.user_agent.id == userId %}
+                <button type="button" class="btn btn-danger btn-pill btn-sm mb-2 me-2 activateaccount" acct="{{ u.username}}" accid="{{ u.id}}" comrate="{{ u.userwallet.commission_rate}}" plstat="{{ u.useraccount.usertype}}" userstat="{{ u.useraccount.status}}"  myagent="{{u.useraccount.user_agent.id}}">BANNED</button>
+                {% else %}
+                <button type="button" class="btn btn-outline-danger btn-pill btn-sm mb-2 me-2 activateaccount" acct="{{ u.username}}" accid="{{ u.id}}" comrate="{{ u.userwallet.commission_rate}}" plstat="{{ u.useraccount.usertype}}" userstat="{{ u.useraccount.status}}"  myagent="{{u.useraccount.user_agent.id}}">BANNED</button>
+                {% endif %}
+                {% endif %}
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+        
+    </tbody>
+</table>
+
+
+<script>
+    $("#selection-datatable").DataTable({
+            select: { style: "multi" },
+            language: { paginate: { previous: "<i class='bx bx-chevron-left'></i>", next: "<i class='bx bx-chevron-right'></i>" } },
+            drawCallback: function () {
+                $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+            },
+        })
+</script>
+<script>
+    $(document).ready(function() {
+        if ($.fn.DataTable.isDataTable('#selection-datatable')) {
+            $('#selection-datatable').DataTable().destroy();
+        }
+        $('#selection-datatable').DataTable({
+            "ordering": false
+        });
+    });
+</script>

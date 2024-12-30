@@ -1,0 +1,211 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block body%}
+{% load humanize %}
+<!-- /////////////////// -->
+<div class="dashboard-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            
+    
+            
+            {% if user.useraccount.usertype == 'ADMIN' %}
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="clipboardInput" value="{{ref_url}}{{ user.useraccount.referral_code}}" aria-label="Recipient's username" aria-describedby="button-addon2">
+                            <button class="btn btn-warning btn-clipboard" type="button" id="button-addon2" data-clipboard-action="copy" data-clipboard-target="#clipboardInput"><i class="fa fa-copy me-2"></i>Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="col-6 col-sm-6 col-lg-6 col-xxl-3 ">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon " >
+                                    <i class="bx bx-mouse-alt text-success" ></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5><span class="text-warning" style="font-size: 20px;"> {{deposit|floatformat:"2"|intcomma}}</span>
+                                    </h5>
+                                    <p class="mb-0">Cash Ins - (Dummy: {{dumdeposit|floatformat:"2"|intcomma}}) - (Total: {{totaldeposit|floatformat:"2"|intcomma}})</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-6 col-lg-6 col-xxl-3">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon">
+                                    <i class="bx bx-mouse-alt"></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5><span class="text-warning" style="font-size: 20px;"> {{withdraw|floatformat:"2"|intcomma}}</span> </h5>
+                                    <p class="mb-0">Total Cash Out - (Dummy: {{dumwithdraw|floatformat:"2"|intcomma}}) - (Total: {{totalwithdraw|floatformat:"2"|intcomma}})</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-6 col-lg-6 col-xxl-3">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon">
+                                    <i class="bx bx-mouse-alt"></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5><span class="text-warning" style="font-size: 20px;">{{realbet|floatformat:"2"|intcomma}}</span>                                        </h5>
+                                    <p class="mb-0">Real Bets - (Dummy: {{dummybet|floatformat:"2"|intcomma}}) - (Dummy Draw: {{dummybetdraw|floatformat:"2"|intcomma}}) - (Total: {{totalbet|floatformat:"2"|intcomma}})</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-6 col-lg-6 col-xxl-3">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon">
+                                    <i class="bx bx-mouse-alt"></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5><span class="text-warning" style="font-size: 20px;">{{plpoint|floatformat:"2"|intcomma}}</span></h5>
+                                    <p class="mb-0">Player Points - (Dummy: {{dumplpoint|floatformat:"2"|intcomma}}) - (Total: {{totalplpoint|floatformat:"2"|intcomma}})</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-6 col-lg-6 col-xxl-3">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon">
+                                    <i class="bx bx-mouse-alt"></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5><span class="text-warning" style="font-size: 20px;">{{agntcomm|floatformat:"2"|intcomma}}</span></h5>
+                                    <p class="mb-0">Agent  Active Rewards</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-6 col-lg-6 col-xxl-3">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon">
+                                    <i class="bx bx-mouse-alt"></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5><span class="text-warning" style="font-size: 20px;">{{agntpoint|floatformat:"2"|intcomma}}</span></h5>
+                                    <p class="mb-0">Agent Points - (Dummy: {{dumagntpoint|floatformat:"2"|intcomma}}) - (Total: {{totalagntpoint|floatformat:"2"|intcomma}})</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-6 col-sm-6 col-lg-6 col-xxl-3">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon">
+                                    <i class="bx bx-mouse-alt"></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5><span class="text-warning" style="font-size: 20px;">{{adactivecom|floatformat:"2"|intcomma}}</span></h5>
+                                    <p class="mb-0">Admin Rewards</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                                <p class="no-wrap">{{comrates|floatformat:"1"|intcomma}}%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-6 col-sm-6 col-lg-6 col-xxl-3">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon">
+                                    <i class="bx bx-mouse-alt"></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5><span class="text-warning" style="font-size: 20px;">{{wondecimals|floatformat:"2"|intcomma}}</span></h5>
+                                    <p class="mb-0">Decimal Points - (Dummy: {{dummydecimal|floatformat:"2"|intcomma}}) - (Total: {{totaldecimal|floatformat:"2"|intcomma}})</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-6 col-sm-6 col-lg-6 col-xxl-3">
+                <div class="card ">
+                    <div class="card-body" data-intro="New Orders">
+                        <div class="single-widget d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="widget-icon">
+                                    <i class="bx bx-mouse-alt"></i>
+                                </div>
+                                <div class="widget-desc">
+                                    <h5><span class="text-warning" style="font-size: 20px;">{{drawincome|floatformat:"2"|intcomma}}</span></h5>
+                                    <p class="mb-0">Draw Income</p>
+                                </div>
+                            </div>
+                            <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

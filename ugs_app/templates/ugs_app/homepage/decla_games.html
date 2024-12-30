@@ -1,0 +1,77 @@
+{% extends '../base.html' %}
+
+{% block body %}
+
+<div class="data-table-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div
+                            class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0 text-warning"><i class="pe-7s-joy"></i>&nbsp; Games</h4>
+                            <div class="page-title-right">
+                                <button type="button" class="btn btn-outline-warning mb-2 me-2 btn-pill" data-bs-toggle="modal"
+                                data-bs-target="#addgames"> <i class="fa fa-optin-monster"></i> Add Games</button>
+                                <input type="hidden" id="page" value="{{page}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive" id="import_row_table">
+                        <table id="selection-datatable" class="table dt-responsive nowrap w-100">
+                            <thead>
+                                <tr>
+                                    <th>Date Created</th>
+                                    <th>Game Name</th>
+                                    <th>Category</th>
+                                    <th>Plasada</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Action</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody id="games_tbl">
+                            
+                                {% for g in games %}
+                                <tr>
+                                    <td>{{ g.g_created}}</td>
+                                    <td class="text-white fw-bolder fs-4">{{g.g_name}}</td>
+                                    <td>{{g.g_category}}</td>
+                                    <td class="text-white fw-bolder fs-4">{{g.g_plasada}}</td>    
+                                    <td>{% if g.g_status == 'CLOSED' %}
+                                        <span class="badge text-bg-danger">CLOSED</span>
+                                        {% elif g.g_status == 'OPEN' %}
+                                        <span class="badge text-bg-success">OPEN</span>
+                                        {% endif%}
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-outline-secondary mb-2 btn-pill btn-sm me-2 g_duplicate" game_n="{{g.g_name}}" id="{{g.g_id}}"><i class="fa fa-copy"></i> Duplicate</button>
+                                        <button type="button" class="btn btn-outline-warning mb-2 btn-pill btn-sm me-2 g_update" id="{{g.g_id}}"><i class="fa fa-edit"></i> Update</button>
+                                        <a type="button" class="btn btn-outline-primary mb-2 me-2 btn-pill btn-sm g_preview" href="{% url 'decla_arena' g.g_id %}" id="{{g.g_id}}"><i class="fa fa-eye"></i> View</a>
+                                        <button type="button" disabled  class="btn btn-outline-danger btn-pill btn-sm mb-2 me-2 del_games" id="{{g.g_id}}" ><i class="icon_close_alt2"></i> Remove</button>
+                                        <button type="button" hidden  class="btn btn-outline-success btn-pill btn-sm mb-2 me-2 reset_games" game_n="{{g.g_name}}" id="{{g.g_id}}" ><i class="fa fa-clock"></i> RESET FIGHT</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+           
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

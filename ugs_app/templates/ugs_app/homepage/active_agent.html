@@ -1,0 +1,69 @@
+{% extends '../base.html' %}
+
+{% block body %}
+{% load humanize %}
+<div class="data-table-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div
+                            class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mssb-0 text-warning" style="text-transform: capitalize;"> Active Agent</h4>
+                            <label  class="btn btn-outline-warning btn-pill">Rate: <a class="btn btn-danger btn-pill" id="commis">{{ comrates|floatformat:"1"|intcomma}}%</a> </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive" id="import_raw_table">
+                        <table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+                            <thead>
+                                <tr>
+                                    <th>Date Joined </th>
+                                    <th>Username</th>
+                                    <th>Full Name</th>
+                                    <th>Category</th>
+                                    <th>Wallet Points</th>
+                                    <th>Commission Rate</th>
+                                    <th>Refer By</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for u in users %}
+                                <tr>
+                                    <td>{{u.date_joined}}</td>
+                                    <td class="text-white fs-4" style="text-transform: lowercase;">{{ u.username}}</td>
+                                    <td class="text-white fs-4" style="text-transform: capitalize;">{{ u.first_name}}, {{ u.last_name}}</td>
+                                    <td>{{ u.useraccount.usertype}}</td>
+                                    <td>{{ u.userwallet.w_balance|floatformat:"2"|intcomma}}</td>
+                                    <td>{{ u.comrate|floatformat:"2"|intcomma }}%</td>
+                                    <td style="text-transform: capitalize;" class="fw-bolder">{{ u.useraccount.user_agent}}</td>
+                                    <td>
+                                        {% if u.useraccount.status == 'ACTIVE' %}
+                                        <button type="button" class="btn btn-outline-success btn-pill btn-sm mb-2 me-2 btn-actvateplyr" acct="{{ u.username}}" accid="{{ u.id}}" comrate="{{ u.userwallet.commission_rate}}" pltype="{{ u.useraccount.usertype}}" plstatus="{{u.useraccount.status}}"> ACTIVE</button>
+                                        {% elif u.useraccount.status == 'INACTIVE' %}
+                                        <button type="button" class="btn btn-outline-warning btn-pill btn-sm mb-2 me-2 btn-actvateplyr" acct="{{ u.username}}" accid="{{ u.id}}" comrate="{{ u.userwallet.commission_rate}}" pltype="{{ u.useraccount.usertype}}" plstatus="{{u.useraccount.status}}"> INACTIVE</button>
+                                        {% else %}
+                                        <button type="button" class="btn btn-outline-danger btn-pill btn-sm mb-2 me-2 btn-actvateplyr" acct="{{ u.username}}" accid="{{ u.id}}" comrate="{{ u.userwallet.commission_rate}}" pltype="{{ u.useraccount.usertype}}" plstatus="{{u.useraccount.status}}"> BANNED</button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

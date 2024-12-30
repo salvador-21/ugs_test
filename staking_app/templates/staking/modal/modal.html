@@ -1,0 +1,102 @@
+<div class="modal fade mt-4" id="stake_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md"><br><br><br><br>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title font-30" id="game_title"><span class="text-white">DAYS: </span><span class="text-warning stakedue"></span> </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="stake_frm" autocomplete="off">
+                <div class="modal-body">
+                    <div style="text-align: center;margin-top: 30px;">
+                        <h2 class="mt-0 font-20">SAND CLOCK</h2>
+                        <p class="text-success  fw-bolder percentextmodal"> <span class="text-success percent"></span>%</p>
+                        <div class="slottextmodal">
+                            <span class="text-warning"><span class="text-warning stakeamnt"></span>/<span class="text-white">Slot</span> </span><br>
+                        </div>
+                    </div>
+                    
+                    <div hidden>
+                        {% csrf_token%}
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Stake Class:</label>
+                            <input type="text" class="form-control inputclass stake_name" id="s_name" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Stake Percentage(%):</label>
+                            <input type="text" class="form-control inputclass stake_rate" id="stake_rate" readonly>
+                        </div>
+                    </div>
+                </div><br>
+                <div class="adduser_err"></div>
+                <div class="modal-footer">
+                    <input type="hidden" class="form-control stake_amount" id="s_amount">
+                    <input type="hidden" class="form-control s_type" id="s_type">
+                    <button type="button" class="btn btn-outline-danger btn-pill" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" for="addgame" class="btn btn-outline-warning btn-pill" id="actbtn">ACTIVATE <i class="fa fa-spin fa-spinner f-16 stakespinner" style="display:none;"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade mt-0 modal-blur" id="stakingmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form id="stake_frm" autocomplete="off">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <span id="importstaking">Slots here</span>
+                </div>
+                <!-- <div class="modal-footer"> -->
+                    <!-- <button type="button" class="btn btn-outline-danger btn-pill pull-right" data-bs-dismiss="modal">Close</button> -->
+                <!-- </div> -->
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade mt-0 modal-blura" id="stakeCashout" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-md"><br><br><br><br>
+        <div class="modal-content" style="border: 1px solid white;">
+            <div class="modal-header">
+                <h1 class="modal-title font-30" id="game_title"><span>Withdraw Stake Earnings</span></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="stake_cashout" autocomplete="off">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="col-form-label">Mode of Payment:</label>
+                        <select class="form-control inputclass" id="mop" required>
+                            <option value=""> - - - </option>
+                            <option value="Gcash"> - Gcash</option>
+                            <option value="Bank"> - Bank</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label  class="col-form-label">Account Name:</label>
+                        <input type="text" class="form-control inputclass" id="acct_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label  class="col-form-label">Account Number:</label>
+                        <input type="number" class="form-control inputclass" id="acct_number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Amount:</label>
+                        <input type="number" step="any" min="0" class="form-control inputclass" id="cash_amnt" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger btn-pill" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-outline-warning btn-pill" id="coutbtn"> WITHDRAW <i class="fa fa-spin fa-spinner f-16 coutspinner" style="display:none;"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

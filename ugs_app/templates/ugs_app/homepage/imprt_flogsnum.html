@@ -1,0 +1,14 @@
+<label>Please select fight number</label>
+<select class="form-control inputclass fightlogs" id="fgnum">
+    <option value=""> - - - </option>
+    {% for fg in fightnum %}
+    <option value="{{ fg.f_number}} | {{ fg.f_mpout}} | {{ fg.f_wpout}} | {{ fg.f_winner}} | {{ fg.f_prevwin}}">{{ fg.f_number}}  {% if fg.f_revert != Null  %} - Revert ({{ fg.f_revert}}) {% endif %}</option>
+    {% endfor %}
+</select>
+
+
+<script>
+    $('.selectized').selectize({
+        sortField: 'text'
+    });
+</script>

@@ -1,0 +1,103 @@
+
+<nav>
+    <ul class="sidebar-menu" data-widget="tree">
+        <li></li>
+        <li class="menu-header-title text-center"><br>{{ user.useraccount.usertype}}</li>
+        <li class=""hidden><a href="#"><i class='bx bx-home-heart'></i><span>101724</span></a></li>
+        <li class="{% if page == 'HOMEPAGE' %} active {% endif %}"><a href="{% url 'homepage' %}"><i class='bx bx-home-heart'></i><span>Dashboard</span></a></li>
+        
+        
+        
+        
+        
+        
+        {% if user.useraccount.usertype == 'SUPER ADMIN'  %} <!--SUPER ADMIN -->
+        <li class="{% if page == 'USERS' %} active {% endif %}"><a href="admin-accounts"><i class="ti-user"></i><span>All Users</span></a></li>
+        <li class="{% if page == 'LOADING POINTS'%}active{%endif%}"><a href="{% url 'sadminPoint'%}"><i class="pe-7s-diamond"></i><span>Points</span></a></li>
+        {% endif %}
+
+
+
+
+
+
+        {% if user.useraccount.usertype == 'DECLARATOR' %}  <!-- DECLA -->
+        <li class="{% if page == 'DECLA GAMES' %} active {% endif %}"><a href="{% url 'decla_games' %}"><i class="pe-7s-joy"></i><span> Games</span></a></li>
+        {% endif %}
+        
+        
+        
+        
+        
+        
+        
+        {% if user.useraccount.usertype == 'ADMIN' %} <!-- ADMIN -->
+        <li class="{% if page == 'USERS' %} active {% endif %}"><a href="{% url 'users'%}"><i class="ti-user"></i><span> Accounts</span></a></li>
+        <li class="{% if page == 'LOADING STATION'%}active{%endif%}"><a href="{% url 'adloadingstation'%}"><i class="pe-7s-diamond"></i><span>Points</span></a></li>
+        <li class="treeview {% if page == 'LOAD STAKING' or page == 'STAKING WITHDRAWAL'  or page == 'STAKE WITHDRAWAL HISTORY' or page == 'REWARDS WITHDRAWAL' or page == 'REWARDS WITHDRAWAL HISTORY'%} active {% endif %}">
+            <a href="javascript:void(0)"><i class="ti-stats-up"></i><span>Stake</span> <i class="fa fa-angle-right"></i></a>
+            <ul class="treeview-menu ">
+                <li class="{% if page == 'LOAD STAKING' %} active {% endif %}"><a href="{% url 'adstaking' %}"><i class="fnt2 fa fa-circle "></i>Load Staking</a></li>
+                <li class="{% if page == 'STAKING WITHDRAWAL' %} active {% endif %}"><a href="{% url 'adstakewithdraw' %}"><i class="fnt2 fa fa-circle "></i>Earnings Withdrawal</a></li>
+                <li class="{% if page == 'STAKE WITHDRAWAL HISTORY' %} active {% endif %}"><a href="{% url 'adstwithdrawhistory' %}"><i class="fnt2 fa fa-circle "></i>Earnings History</a></li>
+                <li><br></li>
+                <li class="{% if page == 'REWARDS WITHDRAWAL' %} active {% endif %}"><a href="{% url 'adstkcomscout' %}"><i class="fnt2 fa fa-circle "></i>Rewards Withdrawal</a></li>
+                <li class="{% if page == 'REWARDS WITHDRAWAL HISTORY' %} active {% endif %}"><a href="{% url 'stkcomscouthstory' %}"><i class="fnt2 fa fa-circle "></i>Rewards History</a></li>
+            </ul>
+        </li>
+        <li class="treeview {% if page == 'CONVERT REWARDS' or page == 'BET COMMISSION' or page == 'STAKE COMMS' %} active {% endif %}">
+            <a href="javascript:void(0)"><i class="pe-7s-medal"></i><span>Rewards</span> <i class="fa fa-angle-right"></i></a>
+            <ul class="treeview-menu ">
+                <li class="{% if page == 'BET COMMISSION' %} active {% endif %}"><a href="{% url 'betcomms' %}"><i class="fnt2 fa fa-circle "></i>Bet Rewards</a></li>
+                <li class="{% if page == 'STAKE COMMS' %} active {% endif %}"><a href="{% url 'stakecommis' %}"><i class="fnt2 fa fa-circle "></i>Stake Rewards</a></li>
+            </ul>
+        </li>
+        <li class="{% if page == 'FIGHT LOGS'%}active{%endif%}"><a href="{% url 'fightlogs'%}"><i class="pe-7s-diamond"></i><span>Fight Logs</span></a></li>
+        {% endif %}
+        
+        
+        
+        
+    
+        
+        
+        
+        {% if user.useraccount.usertype == 'MASTER OPERATOR' or user.useraccount.usertype == 'INCORPORATOR' or user.useraccount.usertype == 'SUB ADMIN' or user.useraccount.usertype == 'SUB OPERATOR' or user.useraccount.usertype == 'MASTER AGENT' %}
+        
+        <li class="treeview {% if page == 'ACTIVE AGENT' or page == 'ACTIVE PLAYER' or page == 'USER APPROVAL' %} active {% endif %}">
+            <a href="javascript:void(0)"><i class="pe-7s-user"></i><span>Users</span> <i class="fa fa-angle-right"></i></a>
+            <ul class="treeview-menu ">
+                <li class="{% if page == 'ACTIVE AGENT' %} active {% endif %}"><a href="{% url 'activeagent' %}"><i class="fnt2 fa fa-circle "></i>Active Agent</a></li>
+                <li class="{% if page == 'ACTIVE PLAYER' %} active {% endif %}"><a href="{% url 'activeplayer' %}"><i class="fnt2 fa fa-circle "></i>Active Player</a></li>
+                <li class="{% if page == 'USER APPROVAL' %} active {% endif %}"><a href="{% url 'userapproval' %}"><i class="fnt2 fa fa-circle "></i>For Approval</a></li>
+            </ul>
+        </li>
+        <li class="{% if page == 'LOADING STATION'%}active{%endif%}"><a href="{% url 'loadingstation'%}"><i class="pe-7s-diamond"></i><span>Loading Station</span></a></li>
+        <li class="treeview {% if page == 'CONVERT REWARDS' or page == 'BET COMMISSION' or page == 'STAKE COMMS' or page == 'WITHDRAWAL REWARDS' %} active {% endif %}">
+            <a href="javascript:void(0)"><i class="pe-7s-medal"></i><span>Rewards</span> <i class="fa fa-angle-right"></i></a>
+            <ul class="treeview-menu ">
+                <li class="{% if page == 'CONVERT REWARDS' %} active {% endif %}"><a href="{% url 'convertcomms' %}"><i class="fnt2 fa fa-circle "></i>Convert Rewards</a></li>
+                <li class="{% if page == 'BET COMMISSION' %} active {% endif %}"><a href="{% url 'betcomms' %}"><i class="fnt2 fa fa-circle "></i>Bet Rewards</a></li>
+                <li class="{% if page == 'STAKE COMMS' %} active {% endif %}"><a href="{% url 'stakecommis' %}"><i class="fnt2 fa fa-circle "></i>Stake Rewards</a></li>
+                <li class="{% if page == 'WITHDRAWAL REWARDS' %} active {% endif %}"><a href="{% url 'stakecommclaim' %}"><i class="fnt2 fa fa-circle "></i>Withdraw Rewards</a></li>
+            </ul>
+        </li>
+        {% endif %} 
+
+
+
+
+
+
+        {% if user.useraccount.usertype == 'PLAYER'%} <!-- PLAYER -->
+        <li class="{% if page == 'BET HISTORY'%}active{%endif%}"><a href="{% url 'bethistory'%}"><i class="pe-7s-diamond"></i><span>Bet Logs</span></a></li>
+        <li class="{% if page == 'POINTS TRNSACTIONS '%}active{%endif%}"><a href="{% url 'transactions'%}"><i class="pe-7s-diamond"></i><span>Transactions</span></a></li>
+        {% endif %}
+
+
+
+
+        
+    </li>
+</ul>
+</nav>

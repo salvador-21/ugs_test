@@ -1,0 +1,142 @@
+{% extends '../base.html' %}
+
+{% block body %}
+
+<div class="data-table-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div
+                        class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0 text-warning">Super Admin Loading Station</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <div class="col-sm-12 col-lg-6 col-xxl-6">
+            <div class="card ">
+                <div class="card-body" data-intro="New Orders">
+                    <div class="text-center" hidden>
+                        <h4><span class="text-warning " style="font-size: 30px;">{% load humanize %} {{psent|floatformat:"2"|intcomma}}</span></h4>
+                        <label class="mb-0">Transferred</label>
+                    </div>
+                        
+                        
+                        <form id="spadpointsForm">
+                            <div class="modal-body">
+                                <div class="col-12">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <span>Transaction Type:</span>
+                                        <select class="form-control inputclass adtransactype" id="adtransaction" style="background-color: white;">
+                                            <option value="DEPOSIT">DEPOSIT</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <span>Username:</span>
+                                        <select class="selectized" id="adwithdrawaccount">
+                                            {% for u in users %}
+                                            <option value="{{ u.id}} | {{ u.username}}">{{ u.username}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12 col-lg-12 col-xxl-12 ">
+                                        <div class="mb-3">
+                                            <span>Amount:</span>
+                                            <input type="number" min="0" step="any" class="form-control inputclass" id="spadload_point" value="0" onfocus="sdpointsfield(this)" onkeyup="pointsAmount(this)"/>
+                                            <input type="hidden" id="adwalletpoints" value="1000000"/>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 text-center">
+                                        <h1 class="text-center text-warning" style="font-size: 20px;" id="vpoint_amnt">0.00</h1>
+                                        <label>Points Amount</label>
+                                    </div>
+                                </div>                    
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-outline-warning btn-pill btn-block" id="adoutbtn">
+                                    <i class="fa fa-spin fa-spinner f-16 loadspinner" style="display:none;"></i>
+                                    <span id="adprocessbtn">DEPOSIT</span> 
+                                </button>
+                            </div>
+                        </form>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+            
+            
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive" id="import_raw_table">
+                            <table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Code</th>
+                                        <th>Transaction Type</th>
+                                        <th>Amount</th>
+                                        <th>Sender</th>
+                                        <th>Receiver</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for points in agentPointsList %}
+                                    <tr>
+                                        <td>{{ points.p_id }}. </td>
+                                        <td>{{ points.p_code }}</td>
+                                        <td>
+                                            {% if points.p_transtype == 'DEPOSIT' %} 
+                                            <button type="button" class="btn btn-outline-warning btn-pill btn-sm mb-2 me-2"><small>{{ points.p_transtype }}</small></button>
+                                            {% elif points.p_transtype == 'WITHDRAW' %}
+                                            <button type="button" class="btn btn-outline-success btn-pill btn-sm mb-2 me-2"><small>{{ points.p_transtype }}</small></button>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if points.p_transtype == 'DEPOSIT' %} 
+                                            <span class="text-danger">-</span>
+                                            {% elif points.p_transtype == 'WITHDRAW' %}
+                                            <span class="text-success">+ </span>
+                                            {% endif %}
+                                            {{ points.p_amount|floatformat:"2"|intcomma }}
+                                        </td>
+                                        <td>{{ points.p_sender.username }} - {{ points.p_sender.first_name }} {{ points.p_sender.last_name }}</td>
+                                        <td>{{ points.p_receiver.username }} - {{ points.p_sender.first_name }} {{ points.p_sender.last_name }}</td>
+                                        <td>{{ points.p_created }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+</script>
+{% endblock %}
+
+

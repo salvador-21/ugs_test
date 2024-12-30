@@ -1,0 +1,416 @@
+{% extends 'ugs_app/base.html' %}
+{% load static %}
+{% block body%}
+<style>
+    .modal-blur {
+        backdrop-filter: blur(20px);
+    }
+    .inputclass {
+        padding: 12px 12px;
+        box-sizing: border-box;
+        border: 1px solid rgb(0, 102, 102,0.3);
+        font-weight: 500;
+        font-size: 17px;
+        border-radius: 8px;
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
+        outline: none;
+    }
+    .inputclass:focus {
+        border: 1px solid #ff9900;
+    }
+    .fnw100{
+        font-weight: 100;
+        font-size: 10px;
+    }
+    .f19{
+        font-size: 19px;
+    }
+    .percentext{
+        font-size: 40px;margin-top: -10px;
+    }
+    .percentextmodal{
+        font-size: 80px;margin-top: -25px;
+    }
+    .slottextmodal{
+        font-size: 30px;font-weight: bolder;margin-top: -35px;
+    }
+    .earntext{
+        font-size: 30px;margin-top: -10px;
+    }
+    .cbtn{
+        font-size: 18px;font-weight: bolder;margin-top: -4px;
+    }
+    @media screen and (max-width: 600px) { 
+        .percentext{
+            font-size: 30px;margin-top: -10px;
+        }
+        .percentextmodal{
+            font-size: 70px;margin-top: -10px;
+        }
+        .slottextmodal{
+            font-size: 20px;font-weight: bolder;margin-top: -25px;
+        }
+        .earntext{
+            font-size: 20px;margin-top: -10px;
+        }
+        .cbtn{
+            font-size: 18px;font-weight: bolder;margin-top: -12px;
+        }
+    }
+    
+    .stakecard:hover {
+        border-color: #777879;
+        background-color: rgb(34, 33, 36);
+        -webkit-transition: 0.9s;
+        transition: 0.9s;
+    }
+    .text-warn{
+        color: rgba(228, 174, 27, 0.918);
+        font-size: 20px;
+    }
+    .textdate{
+        font-size: 11px;
+    }
+    .codewidth{
+        width: 170px;
+    }
+    #stakingmodal .modal-content {
+        background-color: transparent !important;
+        border: none; /* Removes border around modal */
+        box-shadow: none; /* Removes any shadow */
+    }
+    
+    #stakingmodal .modal-body {
+        background-color: transparent !important;
+    }
+    
+    #stakingmodal .modal-dialog {
+        background-color: transparent !important;
+    }
+    .contentwd{
+        width: 100px;
+    }
+</style>
+<div class="dashboard-area">
+    <div class="container-fluid">
+        <div class="row g-3">
+            <div class="col-12 col-md-3">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0">STAKE WALLET</h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;" id="stakebal">{% load humanize %} {{ user.userwallet.w_stakebal|floatformat:"2"|intcomma }}</h4>
+                                <input hidden id="stakewallet" value="{{ user.userwallet.w_stakebal}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-3">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> ACTIVE</h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;" id="stakeactive">{% load humanize %} {{ user.userwallet.w_stake_active|floatformat:"2"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-3">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> INCOME </h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;" id="stkeearnings">{% load humanize %} {{ user.userwallet.w_stake_earning|floatformat:"2"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-3">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> CASHOUT </h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;" id="coutbaltext">{% load humanize %} {{ user.userwallet.w_stake_out|floatformat:"2"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+            <div class="row m-2">
+                <div class="col-4 bg-danger" style="z-index: 99;" >
+                    <div class="div text-center fs-2 fw-bolder text-white bg-danger " style="transform: skew(-15deg, 0);margin-right: -50px; height: 100%;">
+                        REMINDERS
+                    </div>
+                </div>
+                <div class="col-8">
+                    <marquee class="fs-4 mt-2 text-center" width="100%" direction="left">
+                        <span class="text-warning">Please note that all stake slots are locked for a period of 90 days, during which daily withdrawals of earnings are permitted.</span> - <span class="text-white">Please note that all stake slots are locked for a period of 90 days, during which daily withdrawals of earnings are permitted.</span> - <span class="text-warning">Please note that all stake slots are locked for a period of 90 days, during which daily withdrawals of earnings are permitted.</span> - <span class="text-white">Please note that all stake slots are locked for a period of 90 days, during which daily withdrawals of earnings are permitted.</span>
+                    </marquee>
+                </div>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <div class="col-6 col-md-2">
+                <div class="card">
+                    <div class="card-body p-lg-4">
+                        <div class="single-product-card text-center">
+                            <div class="single-product-img">
+                                <a href="javascript:void(0)" class="stake_btn" id="SAND CLOCK" rate="0.08" amnt="500" type="1"><img src="{% static 'ugs_app/img/staking/SAND CLOCK.jpg' %}" alt=""></a>
+                                <a class="pro-choice" href="#"  stakingtype="1" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakingmodal">
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                </a>
+                                <a href="javascript:void(0)" stakingtype="1" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakingmodal">
+                                    <p class=" mb-0" style="margin-top: -20px; position: relative;font-size: 20px;"><span class="text-warning fw-bolder">8%</span> - <span class="text-white">500 /Slot</span></p>
+                                </a>
+                            </div>
+                            <!-- <div class="single-product-meta" style="margin-top: -30px;">
+                                <a href="javascript:void(0)" stakingtype="1" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakingmodal">
+                                    <h4 class="mt-0 font-20">SAND CLOCK</h4>
+                                    <p class="text-success  fw-bolder percentext"> 8%</p>
+                                    <div class="div" style="font-size: 18px;font-weight: bolder;margin-top: -20px;">
+                                        <span class="text-warning">&#8369; 500/</span><span class="text-white">Slot</span>
+                                    </div>
+                                </a>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="card">
+                    <div class="card-body p-lg-4">
+                        <div class="single-product-card text-center">
+                            <div class="single-product-img">
+                                <a href="javascript:void(0)" class="stake_btn" id="REGULAR CLOCK"  rate="0.10" amnt="1000" type="2"><img src="{% static 'ugs_app/img/staking/WALL CLOCK.jpg' %}" alt=""></a>
+                                <a class="pro-choice" href="#" stakingtype="2" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakingmodal">
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                </a>
+                                <a href="javascript:void(0)" stakingtype="2" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakingmodal">
+                                    <p class=" mb-0" style="margin-top: -20px; position: relative;font-size: 20px;"><span class="text-warning fw-bolder">10%</span> - <span class="text-white">1K /Slot</span></p>
+                                </a>
+                            </div>
+                            <!-- <div class="single-product-meta" style="margin-top: -30px;">
+                                <a href="javascript:void(0)" stakingtype="2" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakingmodal">
+                                    <h4 class="mt-0 font-20">WALL CLOCK</h4>
+                                    <p class="text-success  fw-bolder percentext"> 10%</p>
+                                    <div class="div" style="font-size: 18px;font-weight: bolder;margin-top: -20px;">
+                                        <span class="text-warning">&#8369; 1,000/</span><span class="text-white">Slot</span>
+                                    </div>
+                                </a>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="card">
+                    <div class="card-body p-lg-4">
+                        <div class="single-product-card text-center">
+                            <div class="single-product-img">
+                                <a href="javascript:void(0)" class="stake_btn" id="MODERN CLOCK" rate="0.15" amnt="2000" type="3"><img src="{% static 'ugs_app/img/staking/MODERN CLOCK.jpg' %}" alt=""></a>
+                                <a class="pro-choice" href="#" stakingtype="3" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakingmodal">
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                </a>
+                                <a href="javascript:void(0)"  stakingtype="3" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakingmodal">
+                                    <p class=" mb-0" style="margin-top: -20px; position: relative;font-size: 20px;"><span class="text-warning fw-bolder">15%</span> - <span class="text-white">2K /Slot</span></p>
+                                </a>
+                            </div>
+                            <!-- <div class="single-product-meta" style="margin-top: -30px;">
+                                <a href="javascript:void(0)"  stakingtype="3" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakingmodal">
+                                    <h4 class="mt-0 font-20">MODERN CLOCK</h4>
+                                    <p class="text-success  fw-bolder percentext"> 15%</p>
+                                    <div class="div" style="font-size: 18px;font-weight: bolder;margin-top: -20px;">
+                                        <span class="text-warning">&#8369; 2,000/</span><span class="text-white">Slot</span>
+                                    </div>
+                                </a>
+                                
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="card">
+                    <div class="card-body p-lg-4">
+                        <div class="single-product-card text-center">
+                            <div class="single-product-img">
+                                <a href="javascript:void(0)" class="stake_btn" id="TECHNO CLOCK" rate="0.20" amnt="5000" type="4"><img src="{% static 'ugs_app/img/staking/TECHNO CLOCK.jpg' %}" alt=""></a>
+                                <a class="pro-choice" href="#" stakingtype="4" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakingmodal">
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                </a>
+                                <a href="javascript:void(0)" stakingtype="4" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakingmodal">
+                                    <p class=" mb-0" style="margin-top: -20px; position: relative;font-size: 20px;"><span class="text-warning fw-bolder">20%</span> - <span class="text-white">5K /Slot</span></p>
+                                </a>
+                            </div>
+                            <!-- <div class="single-product-meta" style="margin-top: -30px;">
+                                <a href="javascript:void(0)" stakingtype="4" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakingmodal">
+                                    <h4 class="mt-0 font-20">TECHNO CLOCK</h4>
+                                    <p class="text-success  fw-bolder percentext"> 20%</p>
+                                    <div class="div" style="font-size: 18px;font-weight: bolder;margin-top: -20px;">
+                                        <span class="text-warning">&#8369; 5,000/</span><span class="text-white">Slot</span>
+                                    </div>
+                                </a>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="card">
+                    <div class="card-body p-lg-4">
+                        <div class="single-product-card text-center">
+                            <div class="single-product-img">
+                                <a href="javascript:void(0)" class="stake_btn" id="ROLEX CLOCK" rate="0.25" amnt="10000" type="5"><img src="{% static 'ugs_app/img/staking/ROLEX CLOCK.jpg' %}" alt=""></a>
+                                <a class="pro-choice" href="#" stakingtype="5" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakingmodal">
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                </a>
+                                <a href="javascript:void(0)" stakingtype="5" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakingmodal">
+                                    <p class=" mb-0" style="margin-top: -20px; position: relative;font-size: 20px;"><span class="text-warning fw-bolder">25%</span> - <span class="text-white">10K /Slot</span></p>
+                                </a>
+                            </div>
+                            <!-- <div class="single-product-meta" style="margin-top: -30px;">
+                                <a href="javascript:void(0)" stakingtype="5" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakingmodal">
+                                    <h4 class="mt-0">ROLEX CLOCK</h4>
+                                    <p class="text-success  fw-bolder percentext"> 25%</p>
+                                    <div class="div" style="font-size: 18px;font-weight: bolder;margin-top: -20px;">
+                                        <span class="text-warning">&#8369; 10,000/</span><span class="text-white">Slot</span>
+                                    </div>
+                                </a>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-6 col-md-2">
+                <div class="card ">
+                    <div class="card-body p-lg-4" >
+                        <div class="single-product-card text-center">
+                            <div class="single-product-img " costat="{{costakewithdraw.c_status}}"  balance="{{ stakebalance}}" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakeCashout">
+                                <a href="javascript:void(0)" class="" id="ROLEX CLOCK" rate="0.25" amnt="10000" type="5"><img src="{% static 'ugs_app/img/staking/WALLET.jpg' %}" alt=""></a>
+                                <a class="pro-choice" href="#" >
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                </a>
+                                <a href="javascript:void(0)" >
+                                    <p class="fw-bolder text-warning mb-0" style="margin-top: -20px; position: relative;font-size: 20px;" id="availablestake"><span class="text-warning ">{{ stakebalance|floatformat:"2"|intcomma }}</span> </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- <div class="col-6 col-md-2">
+                <div class="card">
+                    <div class="card-body p-lg-4 cbtn" balance="{{ stakebalance}}" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakeCashout">
+                        <div class="single-product-card text-center">
+                            <div class="single-product-img">
+                                <a href="javascript:void(0)" class="stake_btn" id="ROLEX CLOCK" rate="0.25" amnt="10000" type="5"><img src="{% static 'ugs_app/img/staking/WALLET.jpg' %}" alt=""></a>
+                                <a class="pro-choice" href="#" stakingtype="5" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakingmodal">
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                </a>
+                                <a href="javascript:void(0)">
+                                    <p class="fw-bolder text-white mb-0" style="margin-top: -20px; position: relative;font-size: 20px;" id="availablestake">{{ stakebalance|floatformat:"2"|intcomma }}</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            
+            
+            
+            
+            
+            
+            <!-- <div class="col-6 col-md-2">
+                <div class="card">
+                    <div class="card-body p-lg-4 cbtn" balance="{{ stakebalance}}" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stakeCashout">
+                        <div class="single-product-card text-center">
+                            <div class="single-product-img mb-0">
+                                <a href="javascript:void(0)"><img src="{% static 'ugs_app/img/staking/WALLET.jpg' %}" alt="">
+                                    
+                                </a>
+                                <p class="fw-bolder text-white mb-0" style="margin-top: -20px; position: relative;font-size: 20px;" id="availablestake">{{ stakebalance|floatformat:"2"|intcomma }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                
+                
+                <div class="col-12">
+                    <div class="card">
+                        <img src="{% static 'ugs_app/img/staking/TABLE.jpg' %}" alt="">
+                    </div>
+                </div>
+                
+                
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive" id="import_raw_table">
+                                <table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Transaction</th>
+                                            <th>Withdraw Amount</th>
+                                            <th>MOP</th>
+                                            <th>Account Name</th>
+                                            <th>Account Number</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="">
+                                        {% for stakewithdarw in stakewithdarws %}
+                                        <tr>
+                                            <td>{{ stakewithdarw.sw_date }}</td>
+                                            <td>{{ stakewithdarw.sw_code }}</td>
+                                            <td><span class="text-danger">- </span>{{ stakewithdarw.sw_withdraw|floatformat:"2"|intcomma}}</td>
+                                            <td>{{ stakewithdarw.sw_mop }}</td>
+                                            <td>{{ stakewithdarw.sw_ac_name }}</td>
+                                            <td>{{ stakewithdarw.sw_ac_number }}</td>
+                                            <td>
+                                                {% if stakewithdarw.sw_status == 'PENDING' %}
+                                                <button type="button" class="btn btn-outline-danger btn-pill btn-sm mb-2 me-2"><small>PENDING</small></button>
+                                                {% elif stakewithdarw.sw_status == 'APPROVED' %}
+                                                <button type="button" class="btn btn-outline-success btn-pill btn-sm mb-2 me-2"><small>APPROVED</small></button>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+    {% endblock %}

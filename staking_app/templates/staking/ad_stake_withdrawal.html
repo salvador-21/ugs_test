@@ -1,0 +1,82 @@
+{% extends 'ugs_app/base.html' %}
+{% load static %}
+{% block body%}
+{% load humanize %}
+<div class="data-table-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div
+                        class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0 text-warning">Stake Earnings Withdrawal</h4>
+
+                        <div class="form-check form-switch form-switch-md mb-2">
+                            {% if costakewithdraw.c_status == 0 %} 
+                            <label class="form-check-label" for="SwitchCheckChecked"><b class="ftype text-success">Open Withdrawal</b></label>
+                            <input class="form-check-input me-3 coutseranings" name="f_type" type="checkbox" id="SwitchCheckChecked" checked>
+                            {% elif costakewithdraw.c_status == 1 %}
+                            <label class="form-check-label" for="SwitchCheckChecked"><b class="ftype text-danger">Closed Withdrawal</b></label>
+                            <input class="form-check-input me-3 coutseranings" name="f_type" type="checkbox" id="SwitchCheckChecked">
+                            {% endif %}
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive" id="import_raw_table">
+                        <table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Withdrawal By</th>
+                                    <th>Status</th>
+                                    <th>Withdraw Amount</th>
+                                    <th>MOP</th>
+                                    <th>Account Name</th>
+                                    <th>Account Number</th>
+                                    <th>Transaction</th>
+                                </tr>
+                            </thead>
+                            <tbody id="acc_tbl">
+                                {% for stakewithdarw in stakewithdarws %}
+                                <tr>
+                                    <td>{{ stakewithdarw.sw_date }}</td>
+                                    <td>{{ stakewithdarw.user }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-danger btn-pill btn-sm mb-2 me-2 stkwithdrawconform" 
+                                        rowid="{{ stakewithdarw.sw_id }}"
+                                        adw_code="{{ stakewithdarw.sw_code }}"
+                                        adw_amount="{{ stakewithdarw.sw_withdraw }}"
+                                        adw_mop="{{ stakewithdarw.sw_mop }}"
+                                        adw_acname="{{ stakewithdarw.sw_ac_name }}"
+                                        adw_acnumber="{{ stakewithdarw.sw_ac_number }}"
+                                        ><small> PENDING</small></button>
+                                    </td>
+                                    <td>{{ stakewithdarw.sw_withdraw|floatformat:"2"|intcomma}}</td>
+                                    <td>{{ stakewithdarw.sw_mop }}</td>
+                                    <td>{{ stakewithdarw.sw_ac_name }}</td>
+                                    <td>{{ stakewithdarw.sw_ac_number }}</td>
+                                    <td>{{ stakewithdarw.sw_code }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+
+

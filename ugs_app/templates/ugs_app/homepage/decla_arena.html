@@ -1,0 +1,329 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block body %}
+<style>
+    ::-webkit-scrollbar {
+    width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(37, 36, 36); 
+    border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb {
+    background: #615e5f; 
+    border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+    background: #525151; 
+    }
+    .games_history {
+        position: relative;
+        height: 192px;
+        overflow-x:scroll;
+        overflow-y:hidden;
+        background-color: #ECF0F1;
+        margin-top: -2px;
+        border: 1px;
+    }
+    .games_history table tr td {
+        max-width: 3px;
+        min-width: 35px;
+        max-height: 30px;
+        min-height: 30px;
+        height: 30px;
+        padding:1px 1px 1px 0px;
+        background-color: rgb(33, 36, 44);
+        color:#fff;
+        border: 1px solid rgba(45, 47, 51, 0.3);
+    }
+    .badges {
+        display: inline-flex;        
+        align-items: center;         
+        justify-content: center;     
+        width: 30px;                
+        height: 30px;               
+        color: black;              
+        border-radius: 50%;          
+        padding: 0;                 
+        font-size: 11px;           
+        background-color: white; 
+        
+        box-shadow:  -1px  1px 1px 1px rgba(0,0,0,0.5);
+        -moz-box-shadow:  -1px  1px 1px 1px rgba(0,0,0,0.5);
+        -webkit-box-shadow: -1px  1px 1px 1px rgba(0,0,0,0.5);
+        -o-box-shadow:  -1px  1px 1px 1px rgba(0,0,0,0.5);
+        
+        font-weight: bold;
+        margin-left: 2px;
+        margin-right: auto;
+        font-family: "Montserrat", sans-serif !important;
+    }
+    
+    .badge_meron {
+        border: 5px solid #B31013;
+    }
+    .badge_wala {
+        border: 5px solid #0B4592;
+    }
+    .badge_draw {
+        border: 5px solid #00b33c;
+    }
+    .badge_cancel {
+        border: 5px solid #666666;
+    }
+    .badge_default {
+        border: 5px solid rgb(249, 244, 244);
+    }
+
+iframe {
+  height: 600px;
+}
+
+/* Mobile-specific styles */
+@media only screen and (max-width: 767px) { /* adjust the max-width value to your desired breakpoint */
+  iframe {
+    height: 250px; /* adjust the height value to your desired mobile height */
+  }
+}
+#tablehistory {
+    scroll-behavior: smooth; /* Smooth scrolling */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    white-space: nowrap; /* Prevent wrapping */
+    max-width: 100%; /* Ensure container does not exceed screen size */
+}
+</style>
+<div class="data-table-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            <div class="col-12">
+                
+                <div class="row">
+                    <div class="col-4 bg-danger" style="z-index: 999;" >
+                        <div class="div text-center fs-2 fw-bolder text-white bg-danger gname" style="transform: skew(-15deg, 0);margin-right: -50px; height: 100%;">
+                            {{game_name}}
+                        </div>
+                    </div>
+                    <div class="col-8 ">
+                        <marquee class="fs-4 mt-2 text-center" width="100%" direction="left">
+                            <span class="text-warning">PAYOUT WITH 120 AND BELOW SHALL BE CANCELLED </span> - <span class="text-white">PAYOUT WITH 120 AND BELOW SHALL BE CANCELLED </span> - <span class="text-warning">PAYOUT WITH 120 AND BELOW SHALL BE CANCELLED </span>
+                        </marquee>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="col-md-8">
+                <div class="card">
+                    
+                    
+                    <!-- <video controlsxx  class="w-100 pb-0 mb-2" >
+                        <source src="{{video}}" type="video/mp4" style="z-index: -1;">
+                    </video> -->
+                    <iframe src="{{video}}" allow="autoplay;encrypted-media" allowfullscreen frameborder="0" width="100%" height="600"  title="Sabong"></iframe>
+                    
+                
+                    
+                </div>
+            </div>
+            {{game|json_script:"arena_game"}}
+            <!-- {{user.username|json_script:"player"}}
+            {{fight_id|json_script:"fight_n"}}
+            {{betstat|json_script:"betstatus"}} -->
+            
+            <!-- player -->
+            <div class="col-md-4">
+                <div class="card">
+                    <!-- ////////////// -->
+                    <div class="card-body row">
+                        <input type="hidden"  name="" id="gid" value="{{game}}">
+                        <input type="hidden" name="" id="fid" value="{{fight_id}}">
+                        <input type="hidden" id="betst" value="{{betstat}}">
+                        <input type="hidden" id="page" value="{{page}}">
+
+                        <div class=" col-4 text-center notif" >
+                            {% if status == 'CLOSED' %}
+                            <span class="badge bg-danger fw-bolder fs-4    closenotif" >CLOSED</span>
+                            {% elif status == 'OPEN' %}
+                            <span class="badge bg-success fw-bolder fs-4   opennotif" >OPEN</span>
+                            {% elif status == 'LAST CALL' %}
+                            <span class="badge bg-warning text-danger fw-bolder fs-4  blink callnotif" >LAST CALL</span>
+                            {% elif status == 'CLOSING' %}
+                            <span class="badge bg-danger fw-bolder fs-4    closenotif" >CLOSED</span>
+                            {% elif status == 'DECLARED' %}
+                            <span class="badge bg-danger fw-bolder fs-4    closenotif" >CLOSED</span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-4" style="z-index: 9999;">
+                            <!-- display winner -->
+                            <div id="meron-win" hidden  class="text-center blink fix-stroke" style="margin-top: -10px;-webkit-text-stroke:  2px rgb(253, 251, 251);text-shadow: 4px 4px #f10e0e4d;">
+                                <span>
+                                    <h1 id="mwin" class="mb-0 text-danger " style="font-size: 25px;">MERON</h1> <div class="text-danger fw-bolder" style="margin-top: -10px;font-size: 20px;">WINS</div> 
+                                </span>
+                            </div>
+                            <!-- wala win -->
+                            <div id="wala-win" hidden class="text-center blink fix-stroke" style="margin-top: -10px;-webkit-text-stroke:  1px rgb(253, 251, 251);text-shadow: 4px 4px #300ef14d;">
+                                <span>
+                                    <h1 id="wwin" class="mb-0 text-primary " style="font-size: 25px;">WALA</h1> <div class="text-primary fw-bolder" style="margin-top: -10px;font-size: 20px;">WINS</div> 
+                                </span>
+                            </div>
+                            <!-- draw win -->
+                            <div id="draw-win" hidden  class="text-center blink fix-stroke" style="margin-top: -10px;-webkit-text-stroke:  1px rgb(253, 251, 251);text-shadow: 4px 4px #34f10e4d;">
+                                <span>
+                                    <h1 id="dwin" class="mb-0 text-success " style="font-size: 25px;">DRAW</h1> <div class="text-success fw-bolder" style="margin-top: -10px;font-size: 20px;">WINS</div> 
+                                </span>
+                            </div>
+                            <div id="cancel-win" hidden  class="text-center blink fix-stroke" style="margin-top: -10px;-webkit-text-stroke:  1px rgb(253, 251, 251);text-shadow: 4px 4px #34f10e4d;">
+                                <span>
+                                    <h1 id="cwin" class="mb-0 text-secondary " style="font-size: 25px;">CANCEL</h1><div class="text-secondary fw-bolder" style="margin-top: -10px;font-size: 14px;">FIGHT</div>
+                                </span>
+                            </div>
+                            <!-- ?\end display -->
+                        </div>
+                        <div class=" col-4   text-center " >
+                            <span class="badge bg-secondary fs-3 mb-2 fnum">Fight #: <span class="fnum_dis text-white fw-bolder fs-2">{{fnum}}</span></span>
+                        </div>
+                        <div class="card col-6 text-center p-0 mb-2 meron_box "  style="background-color: rgba(250, 110, 122, 0.322);">
+                            <div class="bg-danger text-center p-4">
+                                <h3 class="mb-0">{{nmeron}}</h3>
+                            </div>
+                            <div class="card-body ">
+                                <p class="mb-0 text-white">Total Bet:</p>
+                                <input type="hidden" class="dmeron-val" value="{{dmeron|floatformat:'0'}}">
+                                <h1 class="mb-0 text-warning dmeron_bet">
+                                    {% load humanize %}
+                                    {{ dmeron|floatformat:"0"|intcomma }}
+                                </h1>
+                                <p class="mb-0 text-white">Real Bet:</p>
+                                <input type="hidden" class="meron-val" value="{{meron|floatformat:'0'}}">
+                                <h1 class="mb-0 text-warning meron_bet">
+                                    {% load humanize %}
+                                    {{ meron|floatformat:"0"|intcomma }}
+                                </h1>
+                                <p class="mb-0 fw-bolder">PAYOUT=<span class="meronpayout"></span></p>
+                                <p class="mb-0 text-warning fw-bolder fs-6">My Bets</p>
+                                <p class="mb-0 text-warning fs-4 mymeronbet">0</p>
+                                <p class="m-0 text-white pb-4"><span class="merontowin"></span></p>
+                            </div>
+                        </div>
+                        <div class="card col-6 text-center p-0 mb-2 wala_box " style="background-color: rgba(110, 166, 250, 0.322);">
+                            <div class="bg-primary text-center p-4">
+                                <h3 class="mb-0">{{nwala}}</h3>
+                            </div>
+                            <p class="mb-0 text-white">Total Bet:</p>
+                            <input type="hidden" class="dwala-val" value="{{dwala|floatformat:'0'}}">
+                            <h1 class="mb-0 text-warning dwala_bet">
+                                {% load humanize %}
+                                {{ dwala|floatformat:"0"|intcomma }}
+                            </h1>
+                            <p class="mb-0 text-white">Real Bet:</p>
+                            <input type="hidden" class="wala-val" value="{{wala|floatformat:'0'}}">
+                            <h1 class="mb-0 text-warning wala_bet">
+                                {% load humanize %}
+                                {{ wala|floatformat:"0"|intcomma }}
+                            </h1>
+                            <p class="mb-0 fw-bolder">PAYOUT= <span class="walapayout"></span></p>
+                            <p class="mb-0 text-warning fw-bolder fs-6">My Bets</p>
+                            <p class="m-0 text-warning fs-4 mywalabet">0</p>
+                            <p class="m-0 text-white pb-4"><span class="walatowin"></span></p>
+                        </div>
+                        <div class="card col-6 text-center p-0 draw_box " style="background-color: rgba(110, 250, 122, 0.322);">
+                            <div class=" bg-success text-center ">
+                                <h4 class="mb-0">DRAW</h4>
+                            </div>
+                            <span class=" text-white">Total Bet:</span>
+                            <input type="hidden" class="draw-val" value="{{draw|floatformat:'0'}}">
+                            <span class="text-warning mb-0 draw_bet" id="draw" style="font-size: 20px;">
+                                {% load humanize %}
+                                {{ draw|floatformat:"0"|intcomma}}
+                            </span>
+                        </div>
+                        <div class="card col-6 text-center p-0" style="background-color: rgba(145, 167, 177, 0.322);">
+                            <div class=" bg-secondary text-center">
+                                <h4 class="mb-0">LONGEST</h4>
+                            </div>
+                            <span class=" text-white">Total Bet: - [{{ clong|floatformat:"0"|intcomma }}]</span>
+                            <span class="text-warning mb-0 long_bet" style="font-size: 20px;">
+                                {% load humanize %}
+                                {{ long|floatformat:"0"|intcomma }}
+                            </span>
+                        </div>
+                        <div class="card col-12 p-2 mt-2">
+                            <div class="page-title-right">
+                                <div class="input-group" id="#">
+                                    <span class="p-2 text-white fs-3 bg-danger"> Bet Multiplier</span>
+                                    <input type="decimal" class="form-control fs-3 bmulti " value="{{multiplier}}" readonly>
+                                    <button type="button" class="btn btn-outline-warning  fs-2 addfight" id="{{game}}"> <i class="fa fa-optin-monster"></i> SETTING</button>
+                                </div>
+                            </div>
+                            <!-- PLAYER CONTROLS -->
+                            <!-- <div class="card col-12 p-2 mt-2">
+                                <div class="page-title-right">
+                                    <button type="button" class="btn btn-outline-warning mb-2 me-2 w-100 fs-2 addfight" id="{{game}}"> <i class="fa fa-optin-monster"></i> FIGHT SETTING</button>
+                                </div>
+                            </div> -->
+
+
+
+                            
+                            <div class="card col-12 p-2 mt-2 controls">
+                                {% if status == 'CLOSED' %}
+                                <button class="btn btn-success callbtn col-12 fs-2 mb-2 " typ="OPEN" game="{{fight_id}}">OPEN BET</button>
+                                {% elif status == 'OPEN' %}
+                                <button class="btn btn-warning callbtn col-12 fs-2 mb-2" typ="LAST CALL" game="{{fight_id}}" >LAST CALL</button>
+                                {% elif status == 'LAST CALL' %}
+                                <button class="btn btn-danger callbtn col-12 fs-2 mb-2 " typ="CLOSED"  game="{{fight_id}}" >CLOSE BET </button>
+                                {% elif status == 'CLOSING' %}
+                                <div class="row">
+                                    <div class="col-6 mt-2">
+                                        <button class="btn btn-danger fs-2 w-100 betwin"  game="{{fight_id}}"  id="MERON" gameid="{{game}}">MERON WIN?</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button class="btn btn-primary fs-2 w-100 betwin"  game="{{fight_id}}" id="WALA" gameid="{{game}}">WALA WIN?</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button class="btn btn-success fs-2 w-100 betwin"  game="{{fight_id}}" id="DRAW" gameid="{{game}}">DRAW WIN?</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button class="btn btn-secondary fs-2 w-100 betwin"  game="{{fight_id}}" id="CANCELLED" gameid="{{game}}">CANCEL FIGHT?</button>
+                                    </div>
+                                </div>
+                                <br>
+                                <button  class="btn btn-warning fs-2 w-100 longbetwin mt-3"  game="{{fight_id}}" id="LONGEST" gameid="{{game}}" hidden>LONGEST FIGHT?</button>
+                                {% elif status == 'DECLARED' %}
+                                <div class="row">
+                                    <div class="col-12 mt-2">
+                                        <button class="btn btn-secondary fs-2 w-100 revert_btn"  game="{{fight_id}}" >REVERT?</button>
+                                    </div>
+                                    <div class="col-12 mt-2">
+                                        <button class="btn btn-danger fs-2 w-100 disburse_btn"  game="{{fight_id}}"  >DISBURSE </button>
+                                    </div>
+                                </div>
+                                <br>
+                                <button  class="btn btn-warning fs-2 w-100 longbetwin mt-3"  game="{{fight_id}}" id="LONGEST" gameid="{{game}}" hidden>LONGEST FIGHT?</button>
+                                {% elif status == 'NONE' %}
+                                <button class="btn btn-secondary addfight col-12 fs-2 mb-2  " id="{{game}}" typ="NEW"  game="{{fight_id}}" >CREATE NEW FIGHT?</button>
+                                {% elif status == 'DONE' %}
+                                <button class="btn btn-success nxtfight col-12 fs-2 mb-2  " id="{{game}}" typ="NEW"  game="{{fight_id}}" >NEW FIGHT?</button>
+                                {% endif %}
+                            </div>
+                            <div class="revertdiv"></div>
+                             <!-- -------------------MMMMMMMMMMMMMMM------------------------ -->
+                             <br>
+                             <div class="games_history" style="height: auto;">
+                                 <div id="fighrowtable"></div>
+                             </div>
+                             <hr>
+                             <div class="games_history" style="height: auto;">  
+                                 <div id="tablehistory"></div>
+                             </div>
+                             <br>
+                             
+                             <!-- -------------------MMMMMMMMMMMMMMM------------------------ -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

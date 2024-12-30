@@ -1,0 +1,140 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block body%}
+<!-- /////////////////// -->
+ <style>
+#gtag {
+  font-size: 20px;
+}
+
+/* Mobile-specific styles */
+@media only screen and (max-width: 767px) { /* adjust the max-width value to your desired breakpoint */
+#gtag {
+  font-size: 10px;
+
+}
+#e_sabong {
+    padding: 8px;
+}
+#e_sports {
+    padding: 8px;
+}
+#e_perya {
+    padding: 8px;
+}
+#e_movies {
+    padding: 8px;
+}
+
+
+}
+
+
+ </style>
+<div class="dashboard-area" >
+    <div class="container-fluid" >
+        <div class="row g-4" >
+            {% if user.useraccount.usertype == 'PLAYER' %}
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body" style="padding: 0px;">
+                        <div id="carouselExampleAutoplaying" class="carousel slide pointer-event" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="{% static 'ugs_app/banner/s2.jpg' %}" class="d-block w-100" alt="...">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{% static 'ugs_app/banner/s1.jpg' %}" class="d-block w-100" alt="...">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{% static 'ugs_app/banner/s3.jpg' %}" class="d-block w-100" alt="...">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{% static 'ugs_app/banner/s4.jpg' %}" class="d-block w-100" alt="...">
+                                </div>
+                                
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+           
+            
+            <hr>
+            <!-- ///////////////////////// -->
+            <div class="col-12 ">
+                <div class="row">
+                  
+                    <div class="col-6 col-md-3 mb-4">
+                        <div class="card p-0 m-0">
+                            <a  id="#" href="{% url 'player_games' 'E-SABONG' %}">
+              
+                                    <img class="rounded-3  w-100" src="{% static 'ugs_app/img/esabong.png' %}" alt="">
+                                    <!-- <h2 class="card-title mb-2">{{g.g_name}}</h2>
+                                    <p class="card-text">{{g.g_desc}}
+                                    </p> -->
+                  
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-4">
+                        <div class="card p-0 m-0">
+                            <a  id="#" href="{% url 'player_games' 'E-SPORTS' %}">
+                               
+                                    <img class="rounded-3 w-100" src="{% static 'ugs_app/img/egames.png' %}" alt="">
+                                    <!-- <h2 class="card-title mb-2">{{g.g_name}}</h2>
+                                    <p class="card-text">{{g.g_desc}}
+                                    </p> -->
+        
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 mb-4">
+                        <div class="card p-0 m-0">
+                            <a  id="#" href="{% url 'player_games' 'E-MOVIES' %}">
+                               
+                                    <img class="rounded-3 w-100" src="{% static 'ugs_app/img/emovies.jpg' %}" alt="">
+                                    <!-- <h2 class="card-title mb-2">{{g.g_name}}</h2>
+                                    <p class="card-text">{{g.g_desc}}
+                                    </p> -->
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-4">
+                        <div class="card p-0 m-0">
+                            <a  id="#" href="#">
+                               
+                                    <img class="rounded-3 w-100" src="{% static 'ugs_app/img/eperya.jpg' %}" alt="">
+                                    <!-- <h2 class="card-title mb-2">{{g.g_name}}</h2>
+                                    <p class="card-text">{{g.g_desc}}
+                                    </p> -->
+                            </a>
+                        </div>
+                    </div>
+
+                    
+
+                  
+                    
+                </div>
+            </div>
+            
+            <!-- ///////////////////////// -->
+        </div>
+    </div>
+</div>
+
+<!-- //////////////// -->
+{% endblock %}

@@ -1,0 +1,234 @@
+
+
+
+
+
+
+<div class="modal fade" id="admin_upuser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="msg"></div>
+                <form id="upuser_frm" autocomplete="off">
+                    {% csrf_token %}
+                    <span>Changes on account of</span><br>
+                    <span class="unames fs-3 fw-bolder" style="text-transform: capitalize;">Username</span>
+                    <hr>
+                    <div class="mb-3">
+                        <label>Category</label>
+                        <select class="form-control inputclass text-black usertype" id="usertype" name="usertype">
+                            <option value="">- - -</option>
+                            {% if user.useraccount.usertype == 'SUPER ADMIN' %}
+                            <option value="ADMIN">ADMIN</option>
+                            {% endif %}
+                            <option value="MASTER OPERATOR">MASTER OPERATOR</option>
+                            <option value="INCORPORATOR">INCORPORATOR</option>
+                            <option value="SUB ADMIN">SUB ADMIN</option>
+                            <option value="SUB OPERATOR">SUB OPERATOR</option>
+                            <option value="MASTER AGENT">MASTER AGENT</option>
+                            <option value="PLAYER">PLAYER</option>
+                        </select>
+                        <i id="nfusertype" style="font-size:10px;color: red;"></i>
+                    </div>
+                    <div class="mb-3">
+                        <label>Player Status</label>
+                        <select class="form-control inputclass acc_stat text-white" id="plstatus" name="plstatus">
+                            <option value="">- - -</option>
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="INACTIVE">INACTIVE</option>
+                            <option value="BANNED">BANNED</option>
+                        </select>
+                        <i id="nfplstatus" style="font-size:10px;color: red;"></i>
+                    </div>
+                    <div class="mb-3">
+                        <label>Agent Commission(%)</label>
+                        <input type="number" step="any" class="form-control inputclass" name="adcomrate" id="adcomrate" onfocus="inputFocuss(this)"/>
+                        <i id="nfcommission" style="font-size:15px;color: rgb(221, 140, 140);"></i>
+                    </div>
+                    <input type="hidden" class="acct_id" name="acct_id" id="acct_id">
+                    <input type="hidden" name="commirate" id="commirate" value="{{user.userwallet.commission_rate}}"/>
+                    <input type="hidden" name="agentid" id="agentid" value="{{user.id}}"/>
+                    <input type="hidden" name="usercatpage" id="usercatpage" value="{{page}}"/>
+                    <div class="modal-footer">
+                        <i id="notifid" style="font-size:12px;color: red;"></i>
+                        <button type="button" class="btn btn-outline-danger btn-pill" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" for="upuser_frm" class="btn btn-outline-warning btn-pill" id="adusercombtn"><i class="fa fa-spin fa-spinner f-16 acspinner" style="display:none;"></i> Save Changes </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="adstake_withdrawal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Stake Withdrawal</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="stakeCashoutForm" autocomplete="off">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <h4>Withdrawal Details:</h4><br>
+                    <div class="mb-3"><label>Transaction Code:</label>
+                        <input type="text" class="form-control inputclass" id="swcode" readonly/>
+                    </div>
+                    <div class="mb-3"><label>Mode of Payment:</label>
+                        <input type="text" class="form-control inputclass" id="swmop" readonly/>
+                    </div>
+                    <div class="mb-3"><label>Account Name:</label>
+                        <input type="text" class="form-control inputclass" id="swacname" readonly/>
+                    </div>
+                    <div class="mb-3"><label>Account Number:</label>
+                        <input type="text" class="form-control inputclass" id="swacnum" readonly/>
+                    </div>
+                    <div class="mb-3 text-center">
+                        <h1 class="text-center text-warning" style="font-size: 40px;" id="swamount"></h1>
+                        <label>Withdrawal Amount</label>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <input id="rwid" readonly hidden/>
+                    <button type="button" class="btn btn-outline-danger btn-pill" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-outline-warning btn-pill">Confirm <i class="fa fa-spin fa-spinner f-16 stwspinner" style="display:none;"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="stkcomswithdraw" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Stake Withdrawal</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="stkcomcoutForm" autocomplete="off">
+                <div class="modal-body">
+                    {% csrf_token %}
+                    <h4>Withdrawal Details:</h4><br>
+                    <div class="mb-3"><label>Transaction Code:</label>
+                        <input type="text" class="form-control inputclass" id="srwcode" readonly/>
+                    </div>
+                    <div class="mb-3"><label>Mode of Payment:</label>
+                        <input type="text" class="form-control inputclass" id="srwmop" readonly/>
+                    </div>
+                    <div class="mb-3"><label>Account Name:</label>
+                        <input type="text" class="form-control inputclass" id="srwacname" readonly/>
+                    </div>
+                    <div class="mb-3"><label>Account Number:</label>
+                        <input type="text" class="form-control inputclass" id="srwacnum" readonly/>
+                    </div>
+                    <div class="mb-3 text-center">
+                        <h1 class="text-center text-warning" style="font-size: 40px;" id="srwamount"></h1>
+                        <label>Withdrawal Amount</label>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <input id="rrwid" readonly hidden/>
+                    <button type="button" class="btn btn-outline-danger btn-pill" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-outline-warning btn-pill" id="btncocoms">Confirm <i class="fa fa-spin fa-spinner f-16 stwspinner" style="display:none;"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="adduser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">User Account</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addaccount_reg" autocomplete="off">
+                <div class="modal-body">
+                    {% csrf_token %}
+                    {% for i in signup_frm %}
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">{{i.label}}</label>
+                        {{i}}
+                    </div>
+                    {% endfor %}
+                    
+                    {% for u in user_frm %}
+                    <label for="email-name" class="col-form-label">{{ u.label}}</label>
+                    <div class="account mb-3">
+                        {{u}}
+                        
+                    </div>
+                    {% endfor%}
+                    
+                </div>
+                <div class="adduser_err"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-pill" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-warning btn-pill" id="aduserbtn">
+                        <i class="fa fa-spin fa-spinner f-16 addusrs" style="display:none;"></i>Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    <div class="modal fade" id="admin_uppassword" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">User Account</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="adupdateForm" autocomplete="off">
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        <div class="mb-3"><label>Old Password:</label>
+                            <input type="text" class="form-control inputclass" id="rlpass" readonly/>
+                        </div>
+                        <div class="mb-3"><label>New Password:</label>
+                            <input type="text" class="form-control inputclass" id="newpass"/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="usrid" readonly/>
+                        <button type="button" class="btn btn-danger btn-pill" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-warning btn-pill" id="adupdatebtn"><i class="fa fa-spin fa-spinner f-16 upusrspin" style="display:none;"></i>Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

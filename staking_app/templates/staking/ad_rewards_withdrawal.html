@@ -1,0 +1,128 @@
+{% extends 'ugs_app/base.html' %}
+{% load static %}
+{% block body%}
+{% load humanize %}
+<div class="data-table-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div
+                        class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0 text-warning">Staking Commissions</h4>
+                        
+                        <div class="form-check form-switch form-switch-md mb-2">
+                            {% if user.useraccount.coutstat == 0 %} 
+                            <label class="form-check-label" for="flexSwitchCheckChecked"><b class="ftype text-success">Open Withdrawal</b></label>
+                            <input class="form-check-input me-3 coutstatus" name="f_type" type="checkbox" id="flexSwitchCheckChecked" checked>
+                            {% elif user.useraccount.coutstat == 1 %}
+                            <label class="form-check-label" for="flexSwitchCheckChecked"><b class="ftype text-danger">Closed Withdrawal</b></label>
+                            <input class="form-check-input me-3 coutstatus" name="f_type" type="checkbox" id="flexSwitchCheckChecked">
+                            {% endif %}
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12 col-md-4">
+            <div class="card">
+                <div class="card-body card-breadcrumb">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0"> STAKE REWARDS </h4>
+                        <div class="page-title-right">
+                            <h4 class="text-warning" style="font-weight: 700;">{% load humanize %} {{ totalskcom|floatformat:"2"|intcomma }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12 col-md-4">
+            <div class="card">
+                <div class="card-body card-breadcrumb">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0"> REWARDS CLAIMED </h4>
+                        <div class="page-title-right">
+                            <h4 class="text-warning" style="font-weight: 700;">{% load humanize %} {{ skcomclaim|floatformat:"2"|intcomma }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12 col-md-4">
+            <div class="card">
+                <div class="card-body card-breadcrumb">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0"> REMAINING </h4>
+                        <div class="page-title-right">
+                            <h4 class="text-warning" style="font-weight: 700;" id="newclaimbal">{% load humanize %} {{ newcomsbal|floatformat:"2"|intcomma }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive" id="import_cocoms_tbl">
+                        <table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Stake Code</th>
+                                    <th>Status</th>
+                                    <th>Amount</th>
+                                    <th>Mode of Payment</th>
+                                    <th>Account Number</th>
+                                    <th>Account Name</th>
+                                </tr>
+                            </thead>
+                            <tbody id="acc_tbl">
+                                {% for stkcomcout in stakecommswithdraw %}
+                                <tr>
+                                    <td>{{ stkcomcout.sr_date }}</td>
+                                    <td>{{ stkcomcout.sr_code }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-warning btn-pill btn-sm mb-2 me-2 coutconfirm"  
+                                        rowid="{{ stkcomcout.sr_id }}"
+                                        adw_code="{{ stkcomcout.sr_code }}"
+                                        adw_amount="{{ stkcomcout.sr_amount }}"
+                                        adw_mop="{{ stkcomcout.sr_mop }}"
+                                        adw_acname="{{ stkcomcout.sr_ac_name }}"
+                                        adw_acnumber="{{ stkcomcout.sr_ac_number }}"
+                                        
+                                        ><small> WAITING</small></button>
+                                    </td>
+                                    <td>{{ stkcomcout.sr_amount|floatformat:"2"|intcomma}}</td>
+                                    <td>{{ stkcomcout.sr_mop }}</td>
+                                    <td>{{ stkcomcout.sr_ac_name }}</td>
+                                    <td>{{ stkcomcout.sr_ac_number }}</td>
+                                    
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+
+
+
+

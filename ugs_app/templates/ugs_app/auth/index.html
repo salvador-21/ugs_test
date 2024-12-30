@@ -1,0 +1,122 @@
+<!doctype html>
+{% load  compress static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Title -->
+    <title>UGS- {{page}}</title>
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'ugs_app/img/logo2.png' %}">
+    <!-- Plugins File -->
+
+    
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'ugs_app/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'ugs_app/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'ugs_app/style.css' %}">
+    {% endcompress %}
+ 
+    <style>
+
+        body{
+            background-image: url('{% static "ugs_app/img/dash_bg2.jpg"%}');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size:cover;
+        }
+
+    </style>
+   
+    
+</head>
+
+<!-- <body class="login-area" oncontextmenu="return false"> -->
+    <body class="login-area" >
+
+    <div  id="preloader">
+        <div class="chicken-loader" style="z-index: 9999;">
+            <span></span>
+          </div>
+    </div>
+    
+    <!-- /Preloader -->
+
+    <!-- ======================================
+    ******* Page Wrapper Area Start **********
+    ======================================= -->
+ 
+    <div class="main-content- h-100vh">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center justify-content-center">
+                <div class="col-sm-10 col-md-7 col-lg-5">
+                    <!-- Middle Box -->
+                    <div class="middle-box">
+                        <div class="card-body" >
+                            <div class="log-header-area card p-4 mb-4 text-center align-items-center">
+                                <img src="{% static 'ugs_app/img/logo.png'%}" style="width: 150px;height: 150px;margin-top: -100px;">
+                                <h5>  Welcome Back ! </h5>
+                                <p class="mb-0">Sign in to continue.</p>
+                                
+                            </div>
+                            <div class="form-group message"></div>
+                            <div class="card">
+                                <div class="card-body p-4">
+                                    <form id="auth">
+                                        <div class="form-group mb-3">
+                                            <label class="text-muted" for="username">Username</label>
+                                            <input class="form-control" type="text" name="username" id="username"
+                                                placeholder="Enter Username" autocomplete="off">
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="text-muted" for="password">Password</label>
+                                            <input class="form-control" type="password" name="password" id="password"
+                                                placeholder="Enter your password" autocomplete="off">
+                                        </div>
+                                        
+                                        <div class="form-group mb-3">
+                                            <button class="btn btn-warning fw-bolder btn-lg w-100 mt-2 fs-4" type="submit">
+                                                <span class="text-black" id="signin">Sign In</span>
+                                                <span class="text-black" id="spinner" style="display: none;"><i class="fa fa-spin fa-spinner"></i> Redirecting....</span>
+                                            </button>
+                                        </div>
+                                        
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ======================================
+    ********* Page Wrapper Area End ***********
+    ======================================= -->
+
+    <!-- Must needed plugins to the run this Template -->
+    <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script> -->
+
+   {% compress js %}
+    <script src="{% static 'ugs_app/js/jquery.min.js' %}"></script>
+    <script src="{% static 'ugs_app/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'ugs_app/js/default-assets/setting.js' %}"></script>
+    <script src="{% static 'ugs_app/js/default-assets/scrool-bar.js' %}"></script>
+    <script src="{% static 'ugs_app/js/todo-list.js' %}"></script>
+    <script src="{% static 'ugs_app/js/default-assets/active.js' %}"></script>
+    
+    <script src="{% static 'ugs_app/js/sweetalert2.all.min.js' %}"></script>
+    <!-- <script src="{% static 'ugs_app/js/sweetalert-custom.js' %}"></script> -->
+    <script src="{% static 'ugs_app/main/auth.js' %}"></script>
+  {% endcompress %}
+    <script>
+        // alert('Potaka')
+    </script>
+
+</body>
+
+
+</html>

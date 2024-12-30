@@ -1,0 +1,46 @@
+{% load humanize %}
+
+<div class="row g-3">
+    <div class="col-12 col-md-12 g-3">
+        <div class="table-responsive">
+            
+            <div class="card mb-2 stakecard" style="width: 1115px;">
+                <div class="card-body card-breadcrumb p-3">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <span>
+                            <span hidden>Active Stake Slots</span>
+                            <h4 class="mt-0 font-20">{{name}} SLOT ({{stakecount}})</h4>
+                            <span class="text-success  fw-bolder" style="font-size: 30px;margin-top: -15x;">{{s_comm}}<span class="text-success" style="font-size: 20px;">%</span></span> |
+                            <span class="text-warning">{% load humanize %} {{ s_amnt|floatformat:"0"|intcomma }}/</span><span class="text-white">Slot</span> | <span class="text-warning">90 </span> <span class="text-warning">Days</span>
+                        </span>
+                        <button type="button" class="btn-close text-bg-danger" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            
+            {% for staking_info in mystakes %}
+            <div class="card mb-2 stakecard" style="width: 1115px;">
+                <div class="card-body card-breadcrumb p-3">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <span class="codewidth">
+                            <button class="m-0 pl-20 text-muted btn btn-outline-secondary btn-pill">{{ staking_info.stake.sl_code }}</button><br>
+                            <span class="textdate">{{ staking_info.stake.sl_date }}</span>
+                        </span> 
+                        <h4 class="mb-0 text-center contentwd"><span class="text-warn">{{ staking_info.stake.sl_amount|floatformat:"2"|intcomma }}</span><br> <span class="fnw100">AMOUNT</span></h4> 
+                        <h4 class="mb-0 text-center contentwd"><span class="text-warn">{{ staking_info.stake.sl_daily }}</span><br> <span class="fnw100">DAILY</span></h4>
+                        <h4 class="mb-0 text-center contentwd"><span class="text-warn">{{ staking_info.dayscount }}</span><br> <span class="fnw100">DAYS</span></h4>
+                        <h4 class="mb-0 text-center contentwd"><span class="text-warn">{{ staking_info.daily_income|floatformat:"2"|intcomma }}</span><br> <span class="fnw100">EARNINGS</span></h4>
+                        <h4 class="mb-0 text-center contentwd"><span class="text-warn">{{ staking_info.stake.sl_claimed|floatformat:"2"|intcomma }}</span><br> <span class="fnw100">WITHDRAW</span></h4>
+                        <h4 class="mb-0 text-center contentwd"><span class="text-warn">{{ staking_info.stake.sl_balance|floatformat:"2"|intcomma }}</span><br> <span class="fnw100">BALANCE </span></h4>
+                        <h4 class="mb-0">
+                            <button type="button" {{staking_info.btnaccess}} class="btn {{staking_info.btnstyle}}  btn-pill btn-lg stakeclaim" scode="{{ staking_info.stake.sl_code }}" staketype="{{ staking_info.stake.sl_type }}" id="claimbtn">{{staking_info.btntext}} 
+                                <i class="fa fa-spin fa-spinner f-16 {{ staking_info.stake.sl_code }}" style="display:none;"></i>
+                            </button>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,174 @@
+{% extends '../base.html' %}
+
+{% block body %}
+{% load humanize %}
+<div class="data-table-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            
+            
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0 text-warning">Points Transactions</h4>                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> Cash-in </h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;">{{ preceived|floatformat:"2"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+           
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> Won</h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;">{{ betwon|floatformat:"2"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> Bet</h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;">{{ betamount|floatformat:"2"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> Cash-out</h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;">{{ psent|floatformat:"2"|intcomma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0"> Wallet Points</h4>
+                            <div class="page-title-right">
+                                <h4 class="text-warning" style="font-weight: 700;">{{ user.userwallet.w_balance|floatformat:"2"|intcomma}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive" id="import_raw_table">
+                                <table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Code</th>
+                                            <th>Transaction Type</th>
+                                            <th>Amount</th>
+                                            <th>Balance</th>
+                                            <th>Sender</th>
+                                            <th>Receiver</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for points in agentPointsList %}
+                                        <tr>
+                                            <td>{{ points.p_id }}. </td>
+                                            <td>{{ points.p_code }}</td>
+                                            <td>
+                                                {% if points.p_transtype == 'DEPOSIT' %} 
+                                                <button type="button" class="btn btn-outline-danger btn-pill btn-sm mb-2 me-2"><small>{{ points.p_transtype }}</small></button>
+                                                {% elif points.p_transtype == 'WITHDRAW' %}
+                                                <button type="button" class="btn btn-outline-success btn-pill btn-sm mb-2 me-2"><small>{{ points.p_transtype }}</small></button>
+                                                {% elif points.p_transtype == 'CONVERT' %}
+                                                <button type="button" class="btn btn-outline-warning btn-pill btn-sm mb-2 me-2"><small>{{ points.p_transtype }}</small></button>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if points.p_transtype == 'DEPOSIT' and points.p_receiver.id == user.id %} 
+                                                <span class="text-success">+ </span>
+                                                {% elif points.p_transtype == 'DEPOSIT' and points.p_sender.id == user.id %}
+                                                <span class="text-danger">- </span>
+                                                {% elif points.p_transtype == 'WITHDRAW' and points.p_sender.id == user.id %}
+                                                <span class="text-danger">- </span>
+                                                {% elif points.p_transtype == 'WITHDRAW' and points.p_receiver.id == user.id %}
+                                                <span class="text-success">+ </span>
+                                                {% elif points.p_transtype == 'CONVERT' %}
+                                                <span class="text-success">+ </span>
+                                                {% endif %}
+                                                {{ points.p_amount|floatformat:"2"|intcomma }}
+                                            </td>
+                                            <td>
+                                                {% if points.p_transtype == 'DEPOSIT' and points.p_sender.id == user.id %}
+                                                {{ points.p_agentbal|floatformat:"2"|intcomma }}
+
+                                                {% elif points.p_transtype == 'DEPOSIT' and points.p_receiver.id == user.id %}
+                                                {{ points.p_balance|floatformat:"2"|intcomma }}
+                                                
+                                                {% elif points.p_transtype == 'WITHDRAW' and points.p_sender.id == user.id %}
+                                                {{ points.p_agentbal|floatformat:"2"|intcomma }} 
+
+                                                {% elif points.p_transtype == 'WITHDRAW' and points.p_receiver.id == user.id %}
+                                                {{ points.p_balance|floatformat:"2"|intcomma }} 
+
+                                                {% elif points.p_transtype == 'CONVERT' and points.p_sender.id == user.id %}
+                                                {{ points.p_balance|floatformat:"2"|intcomma }}
+                                                
+                                                {% else %}
+                                                0.00
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ points.p_sender.username }} - {{ points.p_sender.first_name }} {{ points.p_sender.last_name }}</td>
+                                            <td>{{ points.p_receiver.username }} - {{ points.p_receiver.first_name }} {{ points.p_receiver.last_name }}</td>
+                                            <td>{{ points.p_created }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        
+    </script>
+    {% endblock %}
+    
+    

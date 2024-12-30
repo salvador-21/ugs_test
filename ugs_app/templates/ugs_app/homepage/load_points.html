@@ -1,0 +1,117 @@
+{% extends '../base.html' %}
+
+{% block body %}
+
+<div class="data-table-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div
+                        class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0 text-warning">Agent Loader Accounts</h4>
+                        <label id="commis">Commission Rate: {{user.userwallet.commission_rate}}</label>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="col-sm-6 col-lg-6 col-xxl-6 ">
+            <div class="card ">
+                <div class="card-body" data-intro="New Orders">
+                    <div class="single-widget d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="widget-icon " >
+                                <i class="bx bx-mouse-alt text-success" ></i>
+                            </div>
+                            <div class="widget-desc">
+                                <h5><span class="text-warning" style="font-size: 20px;">{% load humanize %} {{user.userwallet.w_balance}}</span> |  Points Wallet</h5>
+                                <p class="mb-0">Betting wins</p>
+                            </div>
+                        </div>
+                        <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                            <!-- <p> 5,959.56</p> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-6 col-xxl-6 ">
+            <div class="card ">
+                <div class="card-body" data-intro="New Orders">
+                    <div class="single-widget d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="widget-icon " >
+                                <i class="bx bx-mouse-alt text-success" ></i>
+                            </div>
+                            <div class="widget-desc">
+                                <h5><span class="text-warning" style="font-size: 20px;">{% load humanize %} {{ totalpoint|floatformat:"2"|intcomma}}</span> |  Transferred</h5>
+                                <p class="mb-0">Betting wins</p>
+                            </div>
+                        </div>
+                        <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                            {% if user.useraccount.usertype == 'MASTER OPERATOR' or user.useraccount.usertype == 'INCORPORATOR' or user.useraccount.usertype == 'SUB ADMIN' or user.useraccount.usertype == 'SUB OPERATOR' or user.useraccount.usertype == 'MASTER AGENT' %}
+                            <p class="btn btn-outline-warning btn-pill"><a href="javascript:void(0)"><b>LOAD POINTS</b></a> </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+ 
+        
+        
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive" id="import_raw_table">
+                        <table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Code</th>
+                                    <th>Amount</th>
+                                    <th>Sender</th>
+                                    <th>Receiver</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for points in agentPointsList %}
+                                <tr>
+                                    <td>{{ points.p_id }}. </td>
+                                    <td>{{ points.p_code }}</td>
+                                    <td>{{ points.p_amount|floatformat:"2"|intcomma }}</td>
+                                    <td>{{ points.p_sender.username }} - {{ points.p_sender.first_name }} {{ points.p_sender.last_name }}</td>
+                                    <td>{{ points.p_receiver.username }} - {{ points.p_sender.first_name }} {{ points.p_sender.last_name }}</td>
+                                    <td>{{ points.p_created }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+
+

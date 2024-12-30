@@ -1,0 +1,335 @@
+
+{% load static %}
+{% if user.useraccount.usertype == 'DECLARATOR' %}
+<!-- Fight Setting -->
+{% if page == 'DECLA ARENA' %}
+<div class="modal fade" id="fightsetting" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="">Fight Settings</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+                <div class="msg"></div>
+                <form id="fsetting" autocomplete="off">
+                    {% csrf_token %}
+                    <!-- {{fform}} -->
+                    <input type="hidden" name="f_game"  class="form-control inputclass f_game" required="" id="id_f_game">
+                    <input type="hidden" name="f_id"  class="form-control inputclass fid" required="" id="id_f_id">
+                    <input type="hidden" name="f_winner"  class="form-control inputclass f_winner"  id="id_f_winner">
+                    <input type="hidden" name="f_longest"  class="form-control inputclass f_longest"  id="id_f_longest">
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Event Game</label>
+                        <input type="text"  class="form-control inputclass fgame" required="" >
+                    </div>
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Fight No.</label>
+                        <input type="number" name="f_number"  class="form-control inputclass fight_no" required="" id="id_f_number"  onfocus="fghtfocus(this)">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Bet Multiplier</label>
+                        <input type="decimal" name="f_multiplier"  class="form-control inputclass fmulti" required="" id="id_f_multiplier" onfocus="fghtfocus(this)">
+                    </div>
+                    
+                    <div class="mb-3" hidden >
+                        <label for="recipient-name" class="col-form-label">Status</label>
+                        <select name="f_status" class="form-control inputclass f_status" id="id_f_status">
+                            <option value="CLOSED">CLOSED</option>
+                            <option value="OPEN">OPEN</option>
+                        </select>
+                    </div>
+                    <input id="id_f_tblrows" name="f_tblrows" required="" type="hidden" value="0">
+                    <input id="id_f_revert" name="f_revert" required="" type="hidden" value="">
+                    <input id="id_f_f_mpout" name="f_mpout" required="" type="hidden" value="0">
+                    <input id="id_f_wpout" name="f_wpout" required="" type="hidden" value="0">
+                    <input id="id_f_prevwin" name="f_prevwin" required="" type="hidden" value="">
+                    
+                    <div class="form-check form-switch form-switch-md mb-2">
+                        <input class="form-check-input me-3 sub_type" name="f_type" type="checkbox" id="flexSwitchCheckChecked" checked="">
+                        <label class="form-check-label" for="flexSwitchCheckChecked"><span class="ftype">Update Existing Fight?</span></label>
+                    </div>
+                </div>
+                <div class="adduser_err">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger btn-pill" data-bs-dismiss="modal" hidden>Close</button>
+                    <button type="submit" class="btn btn-outline-warning btn-pill fs-2 fsubmit w-100">
+                        <i class="fa fa-spin fa-spinner f-16 upfight" style="display:none;"></i> Update Current Fight?</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+{% endif %}
+
+
+
+
+
+
+<!-- New User Add Modal -->
+{% if page == 'DECLA GAMES' %}
+<div class="modal fade" id="addgames" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="game_title">Add Game</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="msg"></div>
+                <form id="addgame" autocomplete="off">
+                    {% csrf_token%}
+                    {% for i in game_frm %}
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">{{i.label}}</label>
+                        {{i}}
+                    </div>
+                    {% endfor %}
+                    
+                </div>
+                <input type="hidden" name="tg_image" class="form-control  tg_image" >
+                <div class="adduser_err">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger btn-pill" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" for="addgame" class="btn btn-outline-warning btn-pill" id="newgamebtn">
+                        <i class="fa fa-spin fa-spinner f-16 addgames" style="display:none;"></i> Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="updategames" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="">Update Game</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="msg"></div>
+                <form id="updategame" autocomplete="off">
+                    {% csrf_token %}
+                    <input type="hidden" class="form-control inputclass g_id" name="g_id" value="">
+                    <div class="mb-3 text-center">
+                        <img src="" class="img_preview" style="width: 200px;height: 200px;">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Title</label>
+                        <input type="text" name="g_name" placeholder="Title" class="form-control inputclass g_name" required="" id="id_g_name">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Meron Name</label>
+                        <input type="text" name="g_redname" placeholder="Red Side" class="form-control inputclass g_redname" required="" id="id_g_redname">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Wala Name</label>
+                        <input type="text" name="g_bluename" placeholder="Blue Side" class="form-control inputclass g_bluename" required="" id="id_g_bluename">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Plasada</label>
+                        <input type="number" name="g_plasada" placeholder="Plasada" class="form-control inputclass g_plasada" step="any" required="" id="id_g_plasada">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Description</label>
+                        <textarea name="g_desc" cols="40" rows="5" class="form-control inputclass g_desc" required="" id="id_g_desc"></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Category</label>
+                        <select name="g_category" class="form-control inputclass g_category" id="id_g_category">
+                            <option value="E-SABONG">E-SABONG</option>
+                            <option value="E-SPORTS">E-SPORTS</option>
+                            <option value="E-PERYA">E-PERYA</option>
+                            <option value="E-MOVIES">E-MOVIES</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Game Url</label>
+                        <input type="text" name="g_link" placeholder="Url" class="form-control inputclass g_link" required="" id="id_g_link">
+                    </div>
+                    
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Event Image</label>
+                        <input type="file" name="g_image" class="form-control inputclass g_image"  id="id_g_image">
+                       
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Status</label>
+                        <select name="g_status" class="form-control inputclass g_status" id="id_g_status">
+                            <option value="CLOSED">CLOSED</option>
+                            <option value="OPEN">OPEN</option>
+                            
+                        </select>
+                    </div>
+                </div>
+                <div class="adduser_err">
+                </div>
+                <div class="modal-footer">
+                    
+                    <button type="button" class="btn btn-outline-danger btn-pill" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" for="addgame" class="btn btn-outline-warning btn-pill">
+                        <i class="fa fa-spin fa-spinner f-16 upgames" style="display:none;"></i> Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+<!-- updated agent commission rate 100924 -->
+{% if page == 'ACTIVE AGENT' or page == 'ACTIVE PLAYER' or page == 'USER APPROVAL' %}
+<div class="modal fade modal-blurx" id="activateplyr" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="game_title"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="msg"></div>
+                <form id="activate_form" autocomplete="off">
+                    {% csrf_token %}
+                    <span>Changes on accounts of</span><br>
+                    <span class="unames fs-3 fw-bolder" style="text-transform: capitalize;">Username</span>
+                    <hr>
+                    <div class="mb-3">
+                        <label>Category</label>
+                        <select class="form-control inputclass text-black usertype" id="usertype" name="usertype">
+                            <option value="">- - -</option>
+                            {% if user.useraccount.usertype == 'MASTER OPERATOR' %}
+                            <option value="INCORPORATOR">INCORPORATOR</option>
+                            {% if page == 'USER APPROVAL' or page == 'ACTIVE PLAYER' %}
+                            <option value="PLAYER">PLAYER</option>
+                            {% endif %}
+                            
+                            {% elif user.useraccount.usertype == 'INCORPORATOR' %}
+                            <option value="SUB ADMIN">SUB ADMIN</option>
+                            {% if page == 'USER APPROVAL' or page == 'ACTIVE PLAYER' %}
+                            <option value="PLAYER">PLAYER</option>
+                            {% endif %}
+                            
+                            {% elif user.useraccount.usertype == 'SUB ADMIN' %}
+                            <option value="SUB OPERATOR">SUB OPERATOR</option>
+                            {% if page == 'USER APPROVAL' or page == 'ACTIVE PLAYER' %}
+                            <option value="PLAYER">PLAYER</option>
+                            {% endif %}
+                            
+                            {% elif user.useraccount.usertype == 'SUB OPERATOR' %}
+                            <option value="MASTER AGENT">MASTER AGENT</option>
+                            {% if page == 'USER APPROVAL' or page == 'ACTIVE PLAYER' %}
+                            <option value="PLAYER">PLAYER</option>
+                            {% endif %}
+                            
+                            {% elif user.useraccount.usertype == 'MASTER AGENT' %}
+                            <option value="PLAYER">PLAYER</option>
+                            {% endif %}
+                        </select>
+                        <i id="nfusertype" style="font-size:10px;color: red;"></i>
+                    </div>
+                    <div class="mb-3">
+                        <label>Player Status</label>
+                        <select class="form-control inputclass acc_stat text-white" id="plstatus" name="plstatus">
+                            <option value="">- - -</option>
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="INACTIVE">INACTIVE</option>
+                            <option value="BANNED">BANNED</option>
+                        </select>
+                        <i id="nfplstatus" style="font-size:10px;color: red;"></i>
+                    </div>
+                    <div class="mb-3">
+                        <label>Agent Commission(%)</label>
+                        <input type="number" step="any" class="form-control inputclass" name="commission" id="commission" onfocus="inputFocus(this)"/>
+                        <i id="nfcommission" style="font-size:15px;color: rgb(221, 140, 140);"></i>
+                    </div>
+                    <input type="hidden" class="acct_id" name="acct_id" id="acct_id">
+                    <input type="hidden" name="commirate" id="commirate" value="{{user.userwallet.commission_rate}}"/>
+                    <input type="hidden" name="agentid" id="agentid" value="{{user.id}}"/>
+                    <input type="hidden" name="usercatpage" id="usercatpage" value="{{page}}"/>
+                </div>
+                <div class="modal-footer">
+                    <i id="notifid" style="font-size:12px;color: red;"></i>
+                    <button type="button" class="btn btn-outline-danger btn-pill" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-outline-warning btn-pill" id="commibtn">
+                        <i class="fa fa-spin fa-spinner f-16 agspinner" style="display:none;"></i> Save Changes </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+<!-- updated agent commission rate 100924 -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

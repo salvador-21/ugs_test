@@ -1,0 +1,53 @@
+{% load humanize %}
+<table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+    <thead>
+        <tr>
+            <!-- <th>#</th> -->
+            <th>Transactions</th>
+            <th>Requestor</th>
+            <th>Amount</th>
+            <th>Date Request</th>
+            <th>Date Approved</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cashout in couttransact %}
+        <tr>
+            <td>{{ forloop.counter }}. {{ cashout.cw_code }} </td>
+            <td>{{ cashout.cw_player.username }} </td>
+            <td><span class="text-danger">- </span></span>{{ cashout.cw_out|floatformat:"2"|intcomma }}</td>
+            <td>{{ cashout.cw_created }}</td>
+            <td>{{ cashout.cw_appdate }}</td>
+            <td>
+                {% if cashout.cw_stat == '0' %}
+                <button type="button" class="btn btn-outline-warning btn-pill btn-sm mb-2 me-2 coutbtn" requestor="{{ cashout.cw_player.username }}" out_id="{{cashout.cw_code}}" out_amt="{{cashout.cw_out}}"><small> WAITING</small></button>
+                {% elif cashout.cw_stat == '1' %}
+                <button type="button" class="btn btn-outline-success btn-pill btn-sm mb-2 me-2" disabled><small>APPROVED</small></button>
+                {% elif cashout.cw_stat == '2' %}
+                <button type="button" class="btn btn-outline-danger btn-pill btn-sm mb-2 me-2" disabled><small>DECLINED</small></button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script>
+    $("#selection-datatable").DataTable({
+        select: { style: "multi" },
+        language: { paginate: { previous: "<i class='bx bx-chevron-left'></i>", next: "<i class='bx bx-chevron-right'></i>" } },
+        drawCallback: function () {
+            $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+        },
+    })
+</script>
+<script>
+    $(document).ready(function() {
+        if ($.fn.DataTable.isDataTable('#selection-datatable')) {
+            $('#selection-datatable').DataTable().destroy();
+        }
+        $('#selection-datatable').DataTable({
+            "ordering": false
+        });
+    });
+</script>
